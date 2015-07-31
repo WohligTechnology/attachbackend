@@ -66,6 +66,10 @@ $config =
 				"enabled" => false,
 				"keys"    => array ( "id" => "", "secret" => "" )
 			),
+			"Instagram" => array (
+				"enabled" => true,
+				"keys"    => array ( "id" => "a961f8f698b34ef9a03949a5ae0aca40", "secret" => "58531efa40dc4c33ae5b2a7c9930aa38" )
+			),
 		),
 
 		// if you want to enable logging, set 'debug_mode' to true  then provide a writable file by the web server on "debug_file"
