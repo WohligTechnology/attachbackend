@@ -599,4 +599,45 @@ public function getsingleuserfollow()
         $data['message']=$this->restapi_model->viewallfollowedlatest($user);
         $this->load->view("json",$data);
  }
+ public function imageupload() 
+    {
+	    $date = new DateTime();
+        $imageName = "image-".rand(0, 100000)."".$date->getTimestamp().".jpg";
+        if(move_uploaded_file($_FILES["file"]["tmp_name"], "./uploads/".$imageName)){
+       		$data["message"]=$imageName;
+            	$this->load->view("json",$data); 
+        }else{
+        	$data["message"]="false";
+            	$this->load->view("json",$data); 
+        }
+	    
+//        $date = new DateTime();
+//        $config['upload_path'] = './uploads/';
+//        $config['allowed_types'] = 'gif|jpg|png|jpeg';
+//        $config['max_size']	= '10000000';
+//        $config['overwrite']	= true;
+//        $config['file_name']	= "image-".rand(0, 100000)."".$date->getTimestamp();
+//
+//        $this->load->library('upload', $config);
+//        //$image="file";
+//        if (  $this->upload->do_upload("file"))
+//        {
+//            $uploaddata = $this->upload->data();
+//            $image=$uploaddata['file_name'];
+//
+//            $obj = new stdClass();
+//            $obj->value=$image;
+//            $data["message"]=$obj;
+//            $this->load->view("json2",$data); 
+//        }
+//       else
+//        {
+//            $obj = new stdClass();
+//            $obj->value=$this->upload->display_errors();
+//            $data["message"]=$obj;
+//            $this->load->view("json2",$data); 
+//        }
+    }
+
+ 
 } ?>
