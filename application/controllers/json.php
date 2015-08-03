@@ -1,6 +1,7 @@
 <?php if ( ! defined("BASEPATH")) exit("No direct script access allowed");
 class Json extends CI_Controller 
-{function getalluserpoll()
+{
+    function getalluserpoll()
 {
 	$data = json_decode(file_get_contents('php://input'), true);
     $id=$data['id'];
@@ -95,6 +96,12 @@ class Json extends CI_Controller
 	$elements[14]->header="email";
 	$elements[14]->alias="email";
 
+    $elements[15]=new stdClass();
+	$elements[15]->field="GROUP_CONCAT(`userpollimages`.`image`)";
+	$elements[15]->sort="1";
+	$elements[15]->header="images";
+	$elements[15]->alias="images";
+
 	$search=$this->input->get_post("search");
 	$pageno=$this->input->get_post("pageno");
 	$orderby=$this->input->get_post("orderby");
@@ -108,7 +115,125 @@ class Json extends CI_Controller
 		$orderby="id";
 		$orderorder="ASC";
 	}
-	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `attach_userpoll` LEFT OUTER JOIN `user` ON `user`.`id`=`attach_userpoll`.`user`","WHERE `attach_userpoll`.`user`='$id'");
+	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `attach_userpoll` LEFT OUTER JOIN `user` ON `user`.`id`=`attach_userpoll`.`user` LEFT OUTER JOIN `userpollimages` ON `userpollimages`.`pollid`=`attach_userpoll`.`id`","WHERE `attach_userpoll`.`user`='$id'","GROUP BY `user`.`id`");
+	$this->load->view("json",$data);
+}
+    
+    function getallpolls()
+{
+	$data = json_decode(file_get_contents('php://input'), true);
+
+	$elements=array();
+	$elements[0]=new stdClass();
+	$elements[0]->field="`attach_userpoll`.`id`";
+	$elements[0]->sort="1";
+	$elements[0]->header="ID";
+	$elements[0]->alias="id";
+
+	$elements[1]=new stdClass();
+	$elements[1]->field="`attach_userpoll`.`image`";
+	$elements[1]->sort="1";
+	$elements[1]->header="Image";
+	$elements[1]->alias="image";
+
+	$elements[2]=new stdClass();
+	$elements[2]->field="`attach_userpoll`.`title`";
+	$elements[2]->sort="1";
+	$elements[2]->header="Title";
+	$elements[2]->alias="title";
+
+	$elements[3]=new stdClass();
+	$elements[3]->field="`attach_userpoll`.`video`";
+	$elements[3]->sort="1";
+	$elements[3]->header="Video";
+	$elements[3]->alias="video";
+
+	$elements[4]=new stdClass();
+	$elements[4]->field="`attach_userpoll`.`user`";
+	$elements[4]->sort="1";
+	$elements[4]->header="User";
+	$elements[4]->alias="user";
+
+	$elements[5]=new stdClass();
+	$elements[5]->field="`attach_userpoll`.`status`";
+	$elements[5]->sort="1";
+	$elements[5]->header="Status";
+	$elements[5]->alias="status";
+
+	$elements[6]=new stdClass();
+	$elements[6]->field="`attach_userpoll`.`shouldhavecomment`";
+	$elements[6]->sort="1";
+	$elements[6]->header="Should Have Comment";
+	$elements[6]->alias="shouldhavecomment";
+
+	$elements[7]=new stdClass();
+	$elements[7]->field="`attach_userpoll`.`timestamp`";
+	$elements[7]->sort="1";
+	$elements[7]->header="Time stamp";
+	$elements[7]->alias="timestamp";
+
+	$elements[8]=new stdClass();
+	$elements[8]->field="`attach_userpoll`.`content`";
+	$elements[8]->sort="1";
+	$elements[8]->header="Content";
+	$elements[8]->alias="content";
+
+	$elements[9]=new stdClass();
+	$elements[9]->field="`user`.`name`";
+	$elements[9]->sort="1";
+	$elements[9]->header="name";
+	$elements[9]->alias="name";
+
+	$elements[10]=new stdClass();
+	$elements[10]->field="`user`.`email`";
+	$elements[10]->sort="1";
+	$elements[10]->header="email";
+	$elements[10]->alias="email";
+    
+    $elements[11]=new stdClass();
+	$elements[11]->field="`user`.`image`";
+	$elements[11]->sort="1";
+	$elements[11]->header="image";
+	$elements[11]->alias="image";
+    
+    $elements[12]=new stdClass();
+	$elements[12]->field="`user`.`username`";
+	$elements[12]->sort="1";
+	$elements[12]->header="username";
+	$elements[12]->alias="username";
+    
+    $elements[13]=new stdClass();
+	$elements[13]->field="`user`.`dob`";
+	$elements[13]->sort="1";
+	$elements[13]->header="dob";
+	$elements[13]->alias="dob";
+    
+    $elements[14]=new stdClass();
+	$elements[14]->field="`user`.`email`";
+	$elements[14]->sort="1";
+	$elements[14]->header="email";
+	$elements[14]->alias="email";
+
+    $elements[15]=new stdClass();
+	$elements[15]->field="GROUP_CONCAT(`userpollimages`.`image`)";
+	$elements[15]->sort="1";
+	$elements[15]->header="images";
+	$elements[15]->alias="images";
+
+	$search=$this->input->get_post("search");
+	$pageno=$this->input->get_post("pageno");
+	$orderby=$this->input->get_post("orderby");
+	$orderorder=$this->input->get_post("orderorder");
+	$maxrow=$this->input->get_post("maxrow");
+		if($maxrow=="")
+	{
+	}
+		if($orderby=="")
+	{
+		$orderby="id";
+		$orderorder="DESC";
+	}
+	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `attach_userpoll` LEFT OUTER JOIN `user` ON `user`.`id`=`attach_userpoll`.`user` LEFT OUTER JOIN `userpollimages` ON `userpollimages`.`pollid`=`attach_userpoll`.`id`","","GROUP BY `attach_userpoll`.`id`");
 	$this->load->view("json",$data);
 }
 public function getsingleuserpoll()
