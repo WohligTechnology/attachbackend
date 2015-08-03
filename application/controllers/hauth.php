@@ -15,7 +15,7 @@ class HAuth extends CI_Controller {
 		try
 		{
 			log_message('debug', 'controllers.HAuth.login: loading HybridAuthLib');
-//			$this->load->library('HybridAuthLib');
+			$this->load->library('HybridAuthLib');
 
 			if ($this->hybridauthlib->providerEnabled($provider))
 			{

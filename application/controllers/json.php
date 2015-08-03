@@ -470,12 +470,12 @@ public function getsingleuserfollow()
         $data = json_decode(file_get_contents('php://input'), true);
         $content=$data['content'];
         $image=$data['images'];
-        $title=$data['title'];
-        $video=$data['video'];
-        $user=$data['user'];
+//        $title=$data['title'];
+//        $video=$data['video'];
+        $user=$data['id'];
         $option=$data['options'];
-        $creationdate=$data['creationdate'];
-        $data['message']=$this->restapi_model->createuserpoll($content,$image,$title,$video,$user,$creationdate,$option);
+//        $creationdate=$data['creationdate'];
+        $data['message']=$this->restapi_model->createuserpoll($content,$image,$user,$option);
         $this->load->view("json",$data);
     } 
  public function edituserpoll()

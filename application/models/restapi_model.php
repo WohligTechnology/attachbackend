@@ -26,11 +26,34 @@ class restapi_model extends CI_Model {
 	 $query=$this->db->query("DELETE FROM `attach_userfollow` WHERE `user`='$user' AND `userfollowed`='$userfollowed'");
     return $query;
 	}
-	public function createuserpoll($content,$image,$title,$video,$user,$creationdate){
-	$data = array( "content" => $content, "image" => $image,"title" => $title,"video" => $video,"user" => $user,"creationdate" => $creationdate);
+	public function createuserpoll($content,$image,$user,$option){
+       // CREATE POLL
+	 
+            $data = array( "content" => $content,"user" => $user);
      	$query = $this->db->insert("attach_userpoll", $data);
      	$id = $this->db->insert_id();
-		return $id;
+        
+        //CREATE IMAGES OF POLLS
+        
+        $imagelength=count($image);
+        for($i=0;$i<$imagelength;$i++){
+        
+            $data = array( "image" => $image[$i],"pollid" => $id);
+     	$query = $this->db->insert("attach_userpoll", $data);
+     	$id = $this->db->insert_id();
+            
+        }   
+        
+        //CREATE OPTIONS OF POLLS
+        
+        $optionlength=count($option);
+        for($i=0;$i<$optionlength;$i++){
+         $data = array( "text" => $option[$i],"userpoll" => $id);
+     	$query = $this->db->insert("attach_userpolloption", $data);
+     	$id = $this->db->insert_id();
+        }
+        
+		return true;
 	}	
 	public function edituserpoll($id,$content,$image,$title,$video,$user,$modificationdate){
 	$data = array("user" => $user, "content" => $content, "image" => $image,"title" => $title,"video" => $video,"modificationdate" => $modificationdate);
