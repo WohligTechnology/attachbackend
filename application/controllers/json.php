@@ -60,16 +60,40 @@ class Json extends CI_Controller
 	$elements[8]->alias="content";
 
 	$elements[9]=new stdClass();
-	$elements[9]->field="`attach_userpoll`.`creationdate`";
+	$elements[9]->field="`user`.`name`";
 	$elements[9]->sort="1";
-	$elements[9]->header="Creation Date";
-	$elements[9]->alias="creationdate";
+	$elements[9]->header="name";
+	$elements[9]->alias="name";
 
 	$elements[10]=new stdClass();
-	$elements[10]->field="`attach_userpoll`.`modificationdate`";
+	$elements[10]->field="`user`.`email`";
 	$elements[10]->sort="1";
-	$elements[10]->header="Modification Date";
-	$elements[10]->alias="modificationdate";
+	$elements[10]->header="email";
+	$elements[10]->alias="email";
+    
+    $elements[11]=new stdClass();
+	$elements[11]->field="`user`.`image`";
+	$elements[11]->sort="1";
+	$elements[11]->header="image";
+	$elements[11]->alias="image";
+    
+    $elements[12]=new stdClass();
+	$elements[12]->field="`user`.`username`";
+	$elements[12]->sort="1";
+	$elements[12]->header="username";
+	$elements[12]->alias="username";
+    
+    $elements[13]=new stdClass();
+	$elements[13]->field="`user`.`dob`";
+	$elements[13]->sort="1";
+	$elements[13]->header="dob";
+	$elements[13]->alias="dob";
+    
+    $elements[14]=new stdClass();
+	$elements[14]->field="`user`.`email`";
+	$elements[14]->sort="1";
+	$elements[14]->header="email";
+	$elements[14]->alias="email";
 
 	$search=$this->input->get_post("search");
 	$pageno=$this->input->get_post("pageno");
@@ -84,7 +108,7 @@ class Json extends CI_Controller
 		$orderby="id";
 		$orderorder="ASC";
 	}
-	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `attach_userpoll`","WHERE `attach_userpoll`.`user`='$id'");
+	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `attach_userpoll` LEFT OUTER JOIN `user` ON `user`.`id`=`attach_userpoll`.`user`","WHERE `attach_userpoll`.`user`='$id'");
 	$this->load->view("json",$data);
 }
 public function getsingleuserpoll()

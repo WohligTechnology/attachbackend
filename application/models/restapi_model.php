@@ -33,13 +33,13 @@ class restapi_model extends CI_Model {
      	$query = $this->db->insert("attach_userpoll", $data);
      	$id = $this->db->insert_id();
         
-        //CREATE IMAGES OF POLLS
+//        CREATE IMAGES OF POLLS
         
         $imagelength=count($image);
         for($i=0;$i<$imagelength;$i++){
         
-            $data = array( "image" => $image[$i],"pollid" => $id);
-     	$query = $this->db->insert("attach_userpoll", $data);
+            $data = array( "image" => $image[$i]['image'],"pollid" => $id);
+     	$query = $this->db->insert("userpollimages", $data);
      	$id = $this->db->insert_id();
             
         }   
@@ -48,7 +48,8 @@ class restapi_model extends CI_Model {
         
         $optionlength=count($option);
         for($i=0;$i<$optionlength;$i++){
-         $data = array( "text" => $option[$i],"userpoll" => $id);
+          $text=$option[$i]['text'];
+         $data = array( "text" => $text,"userpoll" => $id);
      	$query = $this->db->insert("attach_userpolloption", $data);
      	$id = $this->db->insert_id();
         }
