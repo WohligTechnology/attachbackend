@@ -624,6 +624,10 @@ public function getsingleuserfollow()
         $user=$data['id'];
         $option=$data['options'];
 //        $creationdate=$data['creationdate'];
+     if(empty($data)){
+       $data['message']=0;
+        $this->load->view("json",$data);
+     }
         $data['message']=$this->restapi_model->createuserpoll($content,$image,$user,$option);
         $this->load->view("json",$data);
     } 
@@ -678,13 +682,154 @@ public function getsingleuserfollow()
  public function createuserpollfavourites()
     {
         $data = json_decode(file_get_contents('php://input'), true);
-        $userpoll=$data['userpoll'];
-        $user=$data['user'];
-        $creationdate=$data['creationdate'];
-	 	print_r($data);
-        $data['message']=$this->restapi_model->createuserpollfavourites($userpoll,$user,$creationdate);
+        $userpoll=$data['pollid'];
+        $user=$data['userid'];
+//        $creationdate=$data['creationdate'];
+//	 	print_r($data);
+        $data['message']=$this->restapi_model->createuserpollfavourites($userpoll,$user);
         $this->load->view("json",$data);
     } 
+    public function getfavouriteuserpolls(){
+      $data = json_decode(file_get_contents('php://input'), true);
+        $user=$data['userid'];
+       $elements=array();
+	$elements[0]=new stdClass();
+	$elements[0]->field="`attach_userpollfavourites`.`id`";
+	$elements[0]->sort="1";
+	$elements[0]->header="ID";
+	$elements[0]->alias="id";
+
+	$elements[1]=new stdClass();
+	$elements[1]->field="`attach_userpollfavourites`.`user`";
+	$elements[1]->sort="1";
+	$elements[1]->header="User";
+	$elements[1]->alias="user";
+
+	$elements[2]=new stdClass();
+	$elements[2]->field="`attach_userpollfavourites`.`userpoll`";
+	$elements[2]->sort="1";
+	$elements[2]->header="User Poll";
+	$elements[2]->alias="userpoll";
+
+	$elements[3]=new stdClass();
+	$elements[3]->field="`attach_userpollfavourites`.`timestamp`";
+	$elements[3]->sort="1";
+	$elements[3]->header="Time stamp";
+	$elements[3]->alias="timestamp";
+
+	$elements[4]=new stdClass();
+	$elements[4]->field="`attach_userpollfavourites`.`creationdate`";
+	$elements[4]->sort="1";
+	$elements[4]->header="Creation Date";
+	$elements[4]->alias="creationdate";
+
+	$elements[5]=new stdClass();
+	$elements[5]->field="`attach_userpoll`.`timestamp`";
+	$elements[5]->sort="1";
+	$elements[5]->header="pollcreatedtime";
+	$elements[5]->alias="pollcreatedtime";
+        
+    $elements[6]=new stdClass();
+	$elements[6]->field="`attach_userpoll`.`content`";
+	$elements[6]->sort="1";
+	$elements[6]->header="pollcontent";
+	$elements[6]->alias="pollcontent";
+        
+    $elements[7]=new stdClass();
+	$elements[7]->field="`attach_userpoll`.`image`";
+	$elements[7]->sort="1";
+	$elements[7]->header="pollimage";
+	$elements[7]->alias="pollimage";
+        
+    $elements[8]=new stdClass();
+	$elements[8]->field="`attach_userpoll`.`title`";
+	$elements[8]->sort="1";
+	$elements[8]->header="polltitle";
+	$elements[8]->alias="polltitle";
+        
+    $elements[9]=new stdClass();
+	$elements[9]->field="`attach_userpoll`.`video`";
+	$elements[9]->sort="1";
+	$elements[9]->header="pollvideo";
+	$elements[9]->alias="pollvideo";   
+        
+    $elements[10]=new stdClass();
+	$elements[10]->field="`attach_userpoll`.`user`";
+	$elements[10]->sort="1";
+	$elements[10]->header="polluser";
+	$elements[10]->alias="polluser";   
+        
+    $elements[11]=new stdClass();
+	$elements[11]->field="`attach_userpoll`.`shouldhavecomment`";
+	$elements[11]->sort="1";
+	$elements[11]->header="shouldhavecomment";
+	$elements[11]->alias="shouldhavecomment";   
+        
+    $elements[12]=new stdClass();
+	$elements[12]->field="`attach_userpoll`.`status`";
+	$elements[12]->sort="1";
+	$elements[12]->header="status";
+	$elements[12]->alias="status"; 
+        
+    $elements[13]=new stdClass();
+	$elements[13]->field="GROUP_CONCAT(`userpollimages`.`id`)";
+	$elements[13]->sort="1";
+	$elements[13]->header="imageid";
+	$elements[13]->alias="imageid"; 
+        
+    $elements[14]=new stdClass();
+	$elements[14]->field="GROUP_CONCAT(`userpollimages`.`pollid`)";
+	$elements[14]->sort="1";
+	$elements[14]->header="pollimageid";
+	$elements[14]->alias="pollimageid"; 
+        
+    $elements[15]=new stdClass();
+	$elements[15]->field="GROUP_CONCAT(`userpollimages`.`image`)";
+	$elements[15]->sort="1";
+	$elements[15]->header="image";
+	$elements[15]->alias="image"; 
+        
+    $elements[16]=new stdClass();
+	$elements[16]->field="GROUP_CONCAT(`attach_userpolloption`.`id`)";
+	$elements[16]->sort="1";
+	$elements[16]->header="optionid";
+	$elements[16]->alias="optionid"; 
+        
+    $elements[17]=new stdClass();
+	$elements[17]->field="GROUP_CONCAT(`attach_userpolloption`.`timestamp`)";
+	$elements[17]->sort="1";
+	$elements[17]->header="optiontimestamp";
+	$elements[17]->alias="optiontimestamp"; 
+        
+    $elements[18]=new stdClass();
+	$elements[18]->field="GROUP_CONCAT(`attach_userpolloption`.`image`)";
+	$elements[18]->sort="1";
+	$elements[18]->header="optionimage";
+	$elements[18]->alias="optionimage"; 
+        
+    $elements[19]=new stdClass();
+	$elements[19]->field="GROUP_CONCAT(`attach_userpolloption`.`text`)";
+	$elements[19]->sort="1";
+	$elements[19]->header="optiontext";
+	$elements[19]->alias="optiontext";
+
+	$search=$this->input->get_post("search");
+	$pageno=$this->input->get_post("pageno");
+	$orderby=$this->input->get_post("orderby");
+	$orderorder=$this->input->get_post("orderorder");
+	$maxrow=$this->input->get_post("maxrow");
+	if($maxrow=="")
+		{
+		}
+	if($orderby=="")
+		{
+	$orderby="id";
+	$orderorder="ASC";
+		}
+	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `attach_userpollfavourites` LEFT OUTER JOIN `attach_userpoll` ON `attach_userpoll`.`id`=`attach_userpollfavourites`.`userpoll` LEFT OUTER JOIN `attach_userpolloption` ON `attach_userpolloption`.`userpoll`=`attach_userpoll`.`id` LEFT OUTER JOIN `userpollimages` ON `userpollimages`.`pollid`=`attach_userpoll`.`id` ","WHERE `attach_userpollfavourites`.`user`='$user'","GROUP BY `attach_userpollfavourites`.`id`");
+	$this->load->view("json",$data);
+        
+    }
  public function deleteuserpollfavourites()
     {
         $data = json_decode(file_get_contents('php://input'), true);

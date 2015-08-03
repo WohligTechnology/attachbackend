@@ -37,7 +37,8 @@ $config =
 
 			"Facebook" => array (
 				"enabled" => true,
-				"keys"    => array ( "id" => "1643177945900345", "secret" => "0b3009f12c6b831b43fc58f02acc5451" ),
+//				"keys"    => array ( "id" => "1643177945900345", "secret" => "0b3009f12c6b831b43fc58f02acc5451" ),
+				"keys"    => array ( "id" => "1452795161694777", "secret" => "1e14657671351bdb6ab188d5ea0c2ebd" ),
                 "scope"   => "email, user_about_me, user_birthday, user_hometown, user_website,publish_actions"
 			),
 
@@ -68,7 +69,7 @@ $config =
 			),
 			"Instagram" => array (
 				"enabled" => true,
-				"keys"    => array ( "id" => "a961f8f698b34ef9a03949a5ae0aca40", "secret" => "58531efa40dc4c33ae5b2a7c9930aa38" )
+				"keys"    => array ( "id" => "a9bf45427ca2419d98537e2b992b71b3", "secret" => "02bf79f5db8142a29c36065f374d1c95" )
 			),
 		),
 

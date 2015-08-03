@@ -87,8 +87,8 @@ return $query;
 $query=$this->db->query("DELETE FROM `attach_userpollresponse` WHERE `id`='$id'");
 return $query;
 }
-	public function createuserpollfavourites($userpoll,$user,$creationdate){
-	$data = array("user" => $user, "userpoll" => $userpoll,"creationdate" => $creationdate);
+	public function createuserpollfavourites($userpoll,$user){
+	$data = array("user" => $user, "userpoll" => $userpoll);
      	$query = $this->db->insert("attach_userpollfavourites", $data);
      	$id = $this->db->insert_id();
 		return $id;
@@ -143,5 +143,7 @@ return $query;
 	$query=$this->db->query("SELECT `id`, `user`, `userfollowed`, `timestamp`, `creationdate`, `modificationdate` FROM `attach_userfollow` WHERE `user`='$user'")->result();
 		return $query;
 	}
+    
+   
 }
 ?>
