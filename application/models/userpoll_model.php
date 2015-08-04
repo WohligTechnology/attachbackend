@@ -21,13 +21,13 @@ return $query;
 }
 function getsingleuserpoll($id){
 
-$query['userpolldetail']=$this->db->query("SELECT `attach_userpoll`.`id`, `attach_userpoll`.`timestamp`, `attach_userpoll`.`content`, `attach_userpoll`.`image`, `attach_userpoll`.`title`, `attach_userpoll`.`video`, `attach_userpoll`.`user`, `attach_userpoll`.`status`, `attach_userpoll`.`shouldhavecomment`, `attach_userpoll`.`creationdate`, `attach_userpoll`.`modificationdate` FROM `attach_userpoll`
+$query['userpolldetail']=$this->db->query("SELECT `attach_userpoll`.`id`, `attach_userpoll`.`timestamp`, `attach_userpoll`.`content`, `attach_userpoll`.`image`, `attach_userpoll`.`title`, `attach_userpoll`.`video`, `attach_userpoll`.`user`, `attach_userpoll`.`status`, `attach_userpoll`.`shouldhavecomment`, `attach_userpoll`.`creationdate`, `attach_userpoll`.`modificationdate`,`user`.`name`, `user`.`password`, `user`.`email`, `user`.`accesslevel`, `user`.`timestamp`, `user`.`status`, `user`.`image`, `user`.`username`, `user`.`socialid`, `user`.`logintype`, `user`.`json`, `user`.`dob` FROM `attach_userpoll` LEFT OUTER JOIN `user` ON `user`.`id`=`attach_userpoll`.`user`
 WHERE `attach_userpoll`.`id`='$id'")->row();
     
-    $query['poll images']=$this->db->query("SELECT `userpollimages`.`id` as `pollimageid`,`userpollimages`.`pollid`,`userpollimages`.`image` FROM `userpollimages`
+    $query['poll_images']=$this->db->query("SELECT `userpollimages`.`id` as `pollimageid`,`userpollimages`.`pollid`,`userpollimages`.`image` FROM `userpollimages`
 WHERE `userpollimages`.`pollid`='$id'")->result(); 
     
-    $query['poll options']=$this->db->query("SELECT `attach_userpolloption`.`id` as `optionid`,`attach_userpolloption`.`image` as `optionimage`,`attach_userpolloption`.`text`,`attach_userpolloption`.`timestamp` as `pollcreationtime` FROM `attach_userpolloption`
+    $query['poll_options']=$this->db->query("SELECT `attach_userpolloption`.`id` as `optionid`,`attach_userpolloption`.`image` as `optionimage`,`attach_userpolloption`.`text`,`attach_userpolloption`.`timestamp` as `pollcreationtime` FROM `attach_userpolloption`
 WHERE `attach_userpolloption`.`userpoll`='$id'")->result();
 return $query;
 }

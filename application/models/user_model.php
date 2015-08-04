@@ -481,6 +481,8 @@ class User_model extends CI_Model
 					$googleid="";
 					$facebookid="";
 					$twitterid="";
+                    $user_profile->userName="";
+                    $user_profile->description="";
 					switch($provider)
 					{
 						case "Google":
@@ -491,10 +493,14 @@ class User_model extends CI_Model
 						break;
 						case "Twitter":
 						$twitterid=$user_profile->identifier;
+                        $user_profile->displayName=$user_profile->firstName;
+						break;
+						case "Instagram":
+						$user_profile->userName=$user_profile->username;
 						break;
 					}
 
-            $query2=$this->db->query("INSERT INTO `user` (`id`, `name`, `password`, `email`, `accesslevel`, `timestamp`, `status`, `image`, `username`, `socialid`, `logintype`, `json`, `dob`, `street`, `address`, `city`, `state`, `country`, `pincode`, `facebook`, `google`, `twitter`) VALUES (NULL, '$user_profile->displayName', '', '$user_profile->email', '3', CURRENT_TIMESTAMP, '1', '$user_profile->photoURL', '', '$user_profile->identifier', '$provider', '', '$user_profile->birthYear-$user_profile->birthMonth-$user_profile->birthDay', '', '$user_profile->address,$user_profile->region', '$user_profile->city', '', '$user_profile->country', '', '$facebookid', '$googleid', '$twitterid')");
+            $query2=$this->db->query("INSERT INTO `user` (`id`, `name`, `password`, `email`, `accesslevel`, `timestamp`, `status`, `image`, `username`, `socialid`, `logintype`, `json`, `dob`, `street`, `address`, `city`, `state`, `country`, `pincode`, `facebook`, `google`, `twitter`,`description`) VALUES (NULL, '$user_profile->displayName', '', '$user_profile->email', '3', CURRENT_TIMESTAMP, '1', '$user_profile->photoURL', '$user_profile->userName', '$user_profile->identifier', '$provider', '', '$user_profile->birthYear-$user_profile->birthMonth-$user_profile->birthDay', '', '$user_profile->address,$user_profile->region', '$user_profile->city', '', '$user_profile->country', '', '$facebookid', '$googleid','$twitterid','$user_profile->description')");
             $id=$this->db->insert_id();
             $newdata = array(
                 'email'     => $user_profile->email,
