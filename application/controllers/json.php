@@ -687,10 +687,15 @@ public function getsingleuserfollow()
         $data = json_decode(file_get_contents('php://input'), true);
         $userpoll=$data['pollid'];
         $user=$data['userid'];
-//        $creationdate=$data['creationdate'];
-//	 	print_r($data);
+     if(empty($data)){
+       $data['message']=0;
+        $this->load->view("json",$data);
+     }
+     else
+     {
         $data['message']=$this->restapi_model->createuserpollfavourites($userpoll,$user);
         $this->load->view("json",$data);
+     }
     } 
     public function getfavouriteuserpolls(){
       $data = json_decode(file_get_contents('php://input'), true);
