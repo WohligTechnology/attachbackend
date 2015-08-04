@@ -40,7 +40,7 @@ class restapi_model extends CI_Model {
         
             $data = array( "image" => $image[$i]['image'],"pollid" => $id);
      	$query = $this->db->insert("userpollimages", $data);
-     	$id = $this->db->insert_id();
+     	$id1 = $this->db->insert_id();
             
         }   
         
@@ -51,7 +51,7 @@ class restapi_model extends CI_Model {
           $text=$option[$i]['text'];
          $data = array( "text" => $text,"userpoll" => $id);
      	$query = $this->db->insert("attach_userpolloption", $data);
-     	$id = $this->db->insert_id();
+     	$id2 = $this->db->insert_id();
         }
         
 		return true;

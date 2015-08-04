@@ -628,8 +628,11 @@ public function getsingleuserfollow()
        $data['message']=0;
         $this->load->view("json",$data);
      }
+     else
+     {
         $data['message']=$this->restapi_model->createuserpoll($content,$image,$user,$option);
         $this->load->view("json",$data);
+     }
     } 
  public function edituserpoll()
     {
@@ -772,43 +775,43 @@ public function getsingleuserfollow()
 	$elements[12]->alias="status"; 
         
     $elements[13]=new stdClass();
-	$elements[13]->field="GROUP_CONCAT(`userpollimages`.`id`)";
+	$elements[13]->field="GROUP_CONCAT(DISTINCT(`userpollimages`.`id`))";
 	$elements[13]->sort="1";
 	$elements[13]->header="imageid";
 	$elements[13]->alias="imageid"; 
         
     $elements[14]=new stdClass();
-	$elements[14]->field="GROUP_CONCAT(`userpollimages`.`pollid`)";
+	$elements[14]->field="GROUP_CONCAT(DISTINCT(`userpollimages`.`pollid`))";
 	$elements[14]->sort="1";
 	$elements[14]->header="pollimageid";
 	$elements[14]->alias="pollimageid"; 
         
     $elements[15]=new stdClass();
-	$elements[15]->field="GROUP_CONCAT(`userpollimages`.`image`)";
+	$elements[15]->field="GROUP_CONCAT(DISTINCT(`userpollimages`.`image`))";
 	$elements[15]->sort="1";
 	$elements[15]->header="image";
 	$elements[15]->alias="image"; 
         
     $elements[16]=new stdClass();
-	$elements[16]->field="GROUP_CONCAT(`attach_userpolloption`.`id`)";
+	$elements[16]->field="GROUP_CONCAT(DISTINCT(`attach_userpolloption`.`id`))";
 	$elements[16]->sort="1";
 	$elements[16]->header="optionid";
 	$elements[16]->alias="optionid"; 
         
     $elements[17]=new stdClass();
-	$elements[17]->field="GROUP_CONCAT(`attach_userpolloption`.`timestamp`)";
+	$elements[17]->field="GROUP_CONCAT(DISTINCT(`attach_userpolloption`.`timestamp`))";
 	$elements[17]->sort="1";
 	$elements[17]->header="optiontimestamp";
 	$elements[17]->alias="optiontimestamp"; 
         
     $elements[18]=new stdClass();
-	$elements[18]->field="GROUP_CONCAT(`attach_userpolloption`.`image`)";
+	$elements[18]->field="GROUP_CONCAT(DISTINCT(`attach_userpolloption`.`image`))";
 	$elements[18]->sort="1";
 	$elements[18]->header="optionimage";
 	$elements[18]->alias="optionimage"; 
         
     $elements[19]=new stdClass();
-	$elements[19]->field="GROUP_CONCAT(`attach_userpolloption`.`text`)";
+	$elements[19]->field="GROUP_CONCAT(DISTINCT(`attach_userpolloption`.`text`))";
 	$elements[19]->sort="1";
 	$elements[19]->header="optiontext";
 	$elements[19]->alias="optiontext";
