@@ -29,6 +29,8 @@ WHERE `userpollimages`.`pollid`='$id'")->result();
     
     $query['poll_options']=$this->db->query("SELECT `attach_userpolloption`.`id` as `optionid`,`attach_userpolloption`.`image` as `optionimage`,`attach_userpolloption`.`text`,`attach_userpolloption`.`timestamp` as `pollcreationtime` FROM `attach_userpolloption`
 WHERE `attach_userpolloption`.`userpoll`='$id'")->result();
+    
+    $query['uservotecount']=$this->db->query("SELECT COUNT(*) as `pollcount` FROM `attach_userpollresponse` WHERE `attach_userpollresponse`.`userpoll`='$id'")->result();
 return $query;
 }
 public function edit($id,$image,$title,$video,$user,$status,$shouldhavecomment,$timestamp,$content,$creationdate,$modificationdate)
