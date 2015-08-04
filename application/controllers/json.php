@@ -657,11 +657,10 @@ public function getsingleuserfollow()
  public function createuserpollresponse()
     {
         $data = json_decode(file_get_contents('php://input'), true);
-        $userpolloption=$data['userpolloption'];
-        $userpoll=$data['userpoll'];
+        $userpolloption=$data['option'];
+        $userpoll=$data['poll'];
         $user=$data['user'];
-        $creationdate=$data['creationdate'];
-        $data['message']=$this->restapi_model->createuserpollresponse($userpolloption,$userpoll,$user,$creationdate);
+        $data['message']=$this->restapi_model->createuserpollresponse($userpolloption,$userpoll,$user);
         $this->load->view("json",$data);
     } 
  public function edituserpollresponse()

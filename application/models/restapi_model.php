@@ -70,8 +70,8 @@ class restapi_model extends CI_Model {
 $query=$this->db->query("DELETE FROM `attach_userpoll` WHERE `id`='$id'");
 return $query;
 }
-	public function createuserpollresponse($userpolloption,$userpoll,$user,$creationdate){
-	$data = array("user" => $user, "userpolloption" => $userpolloption, "userpoll" => $userpoll,"creationdate" => $creationdate);
+	public function createuserpollresponse($userpolloption,$userpoll,$user){
+	$data = array("user" => $user, "userpolloption" => $userpolloption, "userpoll" => $userpoll);
      	$query = $this->db->insert("attach_userpollresponse", $data);
      	$id = $this->db->insert_id();
 		return $id;
