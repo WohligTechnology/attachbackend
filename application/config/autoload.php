@@ -109,7 +109,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('user_model','menu_model','userfollow_model','userpoll_model','userpollcomment_model','userpollfavourites_model','userpolloption_model','userpollresponse_model','restapi_model');
+$autoload['model'] = array('user_model','menu_model','userfollow_model','userpoll_model','userpollcomment_model','userpollfavourites_model','userpolloption_model','userpollresponse_model','restapi_model','userpollimages_model');
 
 /* End of file autoload.php */
 /* Location: ./application/config/autoload.php */

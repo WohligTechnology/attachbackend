@@ -26,10 +26,10 @@ class restapi_model extends CI_Model {
 	 $query=$this->db->query("DELETE FROM `attach_userfollow` WHERE `user`='$user' AND `userfollowed`='$userfollowed'");
     return $query;
 	}
-	public function createuserpoll($content,$image,$user,$option){
+	public function createuserpoll($content,$image,$user,$option,$status){
        // CREATE POLL
 	 
-            $data = array( "content" => $content,"user" => $user);
+            $data = array( "content" => $content,"user" => $user,"shouldhaveoption" =>$status);
      	$query = $this->db->insert("attach_userpoll", $data);
      	$id = $this->db->insert_id();
         
@@ -56,10 +56,20 @@ class restapi_model extends CI_Model {
         
 		return true;
 	}	
-	public function edituserpoll($id,$content,$image,$title,$video,$user,$modificationdate){
-	$data = array("user" => $user, "content" => $content, "image" => $image,"title" => $title,"video" => $video,"modificationdate" => $modificationdate);
+	public function edituserpoll($id,$content,$image,$status){
+	$data = array( "content" => $content,"shouldhaveoption" =>$status);
      	$this->db->where( "id", $id );
 		$query=$this->db->update( "attach_userpoll", $data );
+        
+        //IMAGE COUNT
+        
+        $imagecount=count($image);
+            $query=$this->db->query("DELETE FROM `userpollimages` WHERE `pollid`='$id'");
+        for($i=0;$i<$imagecount;$i++){
+             $data = array( "image" => $image[$i]['image'],"pollid" => $id);
+     	$query = $this->db->insert("userpollimages", $data);
+     	$id1 = $this->db->insert_id();
+        }
 		if(!$query)
 			return 0;
 		else
@@ -67,8 +77,12 @@ class restapi_model extends CI_Model {
 	}
 	public function deleteuserpoll($id)
 {
-$query=$this->db->query("DELETE FROM `attach_userpoll` WHERE `id`='$id'");
-return $query;
+    $query=$this->db->query("DELETE FROM `attach_userpoll` WHERE `id`='$id'");
+    $query=$this->db->query("DELETE FROM `userpollimages` WHERE `pollid`='$id'");
+       	if(!$query)
+			return 0;
+		else
+		return 1;
 }
 	public function createuserpollresponse($userpolloption,$userpoll,$user){
 	$data = array("user" => $user, "userpolloption" => $userpolloption, "userpoll" => $userpoll);

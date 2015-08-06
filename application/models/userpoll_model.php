@@ -21,7 +21,7 @@ return $query;
 }
 function getsingleuserpoll($id){
 
-$query['userpolldetail']=$this->db->query("SELECT `attach_userpoll`.`id`, `attach_userpoll`.`timestamp`, `attach_userpoll`.`content`, `attach_userpoll`.`image`, `attach_userpoll`.`title`, `attach_userpoll`.`video`, `attach_userpoll`.`user`, `attach_userpoll`.`status`, `attach_userpoll`.`shouldhavecomment`, `attach_userpoll`.`creationdate`, `attach_userpoll`.`modificationdate`,`user`.`name`, `user`.`password`, `user`.`email`, `user`.`accesslevel`, `user`.`timestamp`, `user`.`status`, `user`.`image`, `user`.`username`, `user`.`socialid`, `user`.`logintype`, `user`.`json`, `user`.`dob` FROM `attach_userpoll` LEFT OUTER JOIN `user` ON `user`.`id`=`attach_userpoll`.`user`
+$query['userpolldetail']=$this->db->query("SELECT `attach_userpoll`.`id`, `attach_userpoll`.`timestamp`, `attach_userpoll`.`content`, `attach_userpoll`.`image`, `attach_userpoll`.`title`, `attach_userpoll`.`video`, `attach_userpoll`.`user`, `attach_userpoll`.`status`, `attach_userpoll`.`shouldhavecomment`, `attach_userpoll`.`creationdate`, `attach_userpoll`.`modificationdate`,`user`.`name`, `user`.`password`, `user`.`email`, `user`.`accesslevel`, `user`.`timestamp`, `user`.`status`, `user`.`image`, `user`.`username`, `user`.`socialid`, `user`.`logintype`, `user`.`json`, `user`.`dob`,`attach_userpoll`.`shouldhaveoption` FROM `attach_userpoll` LEFT OUTER JOIN `user` ON `user`.`id`=`attach_userpoll`.`user`
 WHERE `attach_userpoll`.`id`='$id'")->row();
     
     $query['poll_images']=$this->db->query("SELECT `userpollimages`.`id` as `pollimageid`,`userpollimages`.`pollid`,`userpollimages`.`image` FROM `userpollimages`
@@ -34,8 +34,6 @@ WHERE `attach_userpolloption`.`userpoll`='$id'")->result();
     foreach($query['poll_options'] as $row){
          $row->pollcount=$this->db->query("SELECT COUNT(*) as `count` FROM `attach_userpollresponse` WHERE `attach_userpollresponse`.`userpolloption`=$row->optionid AND `attach_userpollresponse`.`userpoll`=$id")->row();
     }
-    
-//    $query['uservotecount']=$this->db->query("SELECT COUNT(*) as `attach_userpollresponse` FROM `attach_userpollresponse` WHERE `attach_userpollresponse`.`userpoll`='$id'")->result();
 return $query;
 }
 public function edit($id,$image,$title,$video,$user,$status,$shouldhavecomment,$timestamp,$content,$creationdate,$modificationdate)

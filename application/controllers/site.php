@@ -660,12 +660,12 @@ public function edituserpollsubmit()
 					$video=$uploaddata['file_name'];
 				}
 
-				if($video=="")
-				{
-				$video=$this->movie_model->gettrailerbyid($id);
-				   // print_r($image);
-					$video=$video->video;
-				}
+//				if($video=="")
+//				{
+//				$video=$this->movie_model->gettrailerbyid($id);
+//				   // print_r($image);
+//					$video=$video->video;
+//				}
 	if($this->userpoll_model->edit($id,$image,$title,$video,$user,$status,$shouldhavecomment,$timestamp,$content,$creationdate,$modificationdate)==0)
 		$data["alerterror"]="New userpoll could not be Updated.";
 		else
@@ -1606,6 +1606,189 @@ public function deleteuserfollow()
 	$this->checkaccess($access);
 	$this->userfollow_model->delete($this->input->get("id"));
 	$data["redirect"]="site/viewuserfollow";
+	$this->load->view("redirect",$data);
+}
+
+    
+    //USERPOLL IMAGES
+    
+    public function viewuserpollimages()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$data["page"]="viewuserpollimages";
+	$data[ 'pollid' ] =$this->userpoll_model->getuserpolldropdown();
+	$data["base_url"]=site_url("site/viewuserpollimagesjson");
+	$data["title"]="View userpollimages";
+	$this->load->view("template",$data);
+}
+function viewuserpollimagesjson()
+{
+	$elements=array();
+	$elements[0]=new stdClass();
+	$elements[0]->field="`userpollimages`.`id`";
+	$elements[0]->sort="1";
+	$elements[0]->header="ID";
+	$elements[0]->alias="id";
+	$elements[1]=new stdClass();
+	$elements[1]->field="`attach_userpoll`.`title`";
+	$elements[1]->sort="1";
+	$elements[1]->header="pollid";
+	$elements[1]->alias="pollid";
+	$elements[2]=new stdClass();
+	$elements[2]->field="`userpollimages`.`image`";
+	$elements[2]->sort="1";
+	$elements[2]->header="image";
+	$elements[2]->alias="image";
+	
+	$search=$this->input->get_post("search");
+	$pageno=$this->input->get_post("pageno");
+	$orderby=$this->input->get_post("orderby");
+	$orderorder=$this->input->get_post("orderorder");
+	$maxrow=$this->input->get_post("maxrow");
+		if($maxrow=="")
+		{
+		$maxrow=20;
+		}
+		if($orderby=="")
+		{
+		$orderby="id";
+		$orderorder="ASC";
+		}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `userpollimages` LEFT OUTER JOIN `attach_userpoll` ON `attach_userpoll`.`id`=`userpollimages`.`pollid`");
+$this->load->view("json",$data);
+}
+
+public function createuserpollimages()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$data["page"]="createuserpollimages";
+$data[ 'pollid' ] =$this->userpoll_model->getuserpolldropdown();
+	$data["title"]="Create userpollimages";
+	$this->load->view("template",$data);
+}
+public function createuserpollimagessubmit() 
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	
+			$pollid=$this->input->get_post("pollid");
+    $config['upload_path'] = './uploads/';
+			$config['allowed_types'] = 'gif|jpg|png|jpeg';
+			$this->load->library('upload', $config);
+			$filename="image";
+			$image="";
+			if (  $this->upload->do_upload($filename))
+			{
+				$uploaddata = $this->upload->data();
+				$image=$uploaddata['file_name'];
+                
+                $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
+                $config_r['maintain_ratio'] = TRUE;
+                $config_t['create_thumb'] = FALSE;///add this
+                $config_r['width']   = 800;
+                $config_r['height'] = 800;
+                $config_r['quality']    = 100;
+                //end of configs
+
+                $this->load->library('image_lib', $config_r); 
+                $this->image_lib->initialize($config_r);
+                if(!$this->image_lib->resize())
+                {
+                    echo "Failed." . $this->image_lib->display_errors();
+                    //return false;
+                }  
+                else
+                {
+                    //print_r($this->image_lib->dest_image);
+                    //dest_image
+                    $image=$this->image_lib->dest_image;
+                    //return false;
+                }
+                
+			}
+            
+			if($this->userpollimages_model->create($pollid,$image)==0)
+			$data["alerterror"]="New poll images could not be created.";
+			else
+			$data["alertsuccess"]="poll images created Successfully.";
+			$data["redirect"]="site/viewuserpollimages";
+			$this->load->view("redirect",$data);
+		}
+
+public function edituserpollimages()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$data["page"]="edituserpollimages";
+	$data[ 'pollid' ] =$this->userpoll_model->getuserpolldropdown();
+	$data["title"]="Edit userpollimages";
+	$data["before"]=$this->userpollimages_model->beforeedit($this->input->get("id"));
+	$this->load->view("template",$data);
+}
+public function edituserpollimagessubmit()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	
+			$id=$this->input->get_post("id");
+			$pollid=$this->input->get_post("pollid");
+      $config['upload_path'] = './uploads/';
+			$config['allowed_types'] = 'gif|jpg|png|jpeg';
+			$this->load->library('upload', $config);
+			$filename="image";
+			$image="";
+			if ($this->upload->do_upload($filename))
+			{
+				$uploaddata = $this->upload->data();
+				$image=$uploaddata['file_name'];
+                
+                $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
+                $config_r['maintain_ratio'] = TRUE;
+                $config_t['create_thumb'] = FALSE;///add this
+                $config_r['width']   = 800;
+                $config_r['height'] = 800;
+                $config_r['quality']    = 100;
+                //end of configs
+
+                $this->load->library('image_lib', $config_r); 
+                $this->image_lib->initialize($config_r);
+                if(!$this->image_lib->resize())
+                {
+                    echo "Failed." . $this->image_lib->display_errors();
+                    //return false;
+                }  
+                else
+                {
+                    //print_r($this->image_lib->dest_image);
+                    //dest_image
+                    $image=$this->image_lib->dest_image;
+                    //return false;
+                }
+                
+			}
+            
+            if($image=="")
+            {
+            $image=$this->userpollimages_model->getimagebyid($id);
+               // print_r($image);
+                $image=$image->image;
+            }
+			if($this->userpollimages_model->edit($id,$pollid,$image)==0)
+			$data["alerterror"]="New poll images could not be Updated.";
+			else
+			$data["alertsuccess"]="poll images Updated Successfully.";
+			$data["redirect"]="site/viewuserpollimages";
+			$this->load->view("redirect",$data);
+		}
+
+public function deleteuserpollimages()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$this->userpollimages_model->delete($this->input->get("id"));
+	$data["redirect"]="site/viewuserpollimages";
 	$this->load->view("redirect",$data);
 }
 

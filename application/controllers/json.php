@@ -623,6 +623,7 @@ public function getsingleuserfollow()
 //        $video=$data['video'];
         $user=$data['id'];
         $option=$data['options'];
+        $status=$data['status'];
 //        $creationdate=$data['creationdate'];
      if(empty($data)){
        $data['message']=0;
@@ -630,27 +631,24 @@ public function getsingleuserfollow()
      }
      else
      {
-        $data['message']=$this->restapi_model->createuserpoll($content,$image,$user,$option);
+        $data['message']=$this->restapi_model->createuserpoll($content,$image,$user,$option,$status);
         $this->load->view("json",$data);
      }
     } 
  public function edituserpoll()
     {
         $data = json_decode(file_get_contents('php://input'), true);
-        $id=$data['id'];
+        $id=$data['pollid'];
         $content=$data['content'];
-        $image=$data['image'];
-        $title=$data['title'];
-        $video=$data['video'];
-        $user=$data['user'];
-        $modificationdate=$data['modificationdate'];
-        $data['message']=$this->restapi_model->edituserpoll($id,$content,$image,$title,$video,$user,$modificationdate);
+        $image=$data['images'];
+        $status=$data['status'];
+        $data['message']=$this->restapi_model->edituserpoll($id,$content,$image,$status);
         $this->load->view("json",$data);
     } 
  public function deleteuserpoll()
     {
         $data = json_decode(file_get_contents('php://input'), true);
-        $id=$data['id'];
+        $id=$data['pollid'];
         $data['message']=$this->restapi_model->deleteuserpoll($id);
         $this->load->view("json",$data);
     } 
