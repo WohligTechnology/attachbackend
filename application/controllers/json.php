@@ -37,10 +37,10 @@ class Json extends CI_Controller
 	$elements[4]->alias="user";
 
 	$elements[5]=new stdClass();
-	$elements[5]->field="`attach_userpoll`.`status`";
+	$elements[5]->field="`attach_userpoll`.`shouldhaveoption`";
 	$elements[5]->sort="1";
-	$elements[5]->header="Status";
-	$elements[5]->alias="status";
+	$elements[5]->header="shouldhaveoption";
+	$elements[5]->alias="shouldhaveoption";
 
 	$elements[6]=new stdClass();
 	$elements[6]->field="`attach_userpoll`.`shouldhavecomment`";
@@ -155,10 +155,10 @@ class Json extends CI_Controller
 	$elements[4]->alias="user";
 
 	$elements[5]=new stdClass();
-	$elements[5]->field="`attach_userpoll`.`status`";
+	$elements[5]->field="`attach_userpoll`.`shouldhaveoption`";
 	$elements[5]->sort="1";
-	$elements[5]->header="Status";
-	$elements[5]->alias="status";
+	$elements[5]->header="shouldhaveoption";
+	$elements[5]->alias="shouldhaveoption";
 
 	$elements[6]=new stdClass();
 	$elements[6]->field="`attach_userpoll`.`shouldhavecomment`";
