@@ -141,9 +141,9 @@ class Json extends CI_Controller
         $ids="($id";
         foreach($followids as $key=>$val)
         {
-            if($key==0)
-                $ids=$ids.$val->userfollowed;
-            else
+//            if($key==0)
+//                $ids=$ids.$val->userfollowed;
+//            else
                 $ids=$ids.",".$val->userfollowed;
         }
         $ids.=")";   
