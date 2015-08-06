@@ -5,6 +5,12 @@ class Json extends CI_Controller
 {
 	$data = json_decode(file_get_contents('php://input'), true);
     $id=$data['id'];
+         if(empty($data)){
+       $data['message']=0;
+        $this->load->view("json",$data);
+     }
+     else
+     {
 	$elements=array();
 	$elements[0]=new stdClass();
 	$elements[0]->field="`attach_userpoll`.`id`";
@@ -115,14 +121,32 @@ class Json extends CI_Controller
 		$orderby="id";
 		$orderorder="ASC";
 	}
-	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `attach_userpoll` LEFT OUTER JOIN `user` ON `user`.`id`=`attach_userpoll`.`user` LEFT OUTER JOIN `userpollimages` ON `userpollimages`.`pollid`=`attach_userpoll`.`id`","WHERE `attach_userpoll`.`user`='$id'","GROUP BY `user`.`id`");
+	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `attach_userpoll` LEFT OUTER JOIN `user` ON `user`.`id`=`attach_userpoll`.`user` LEFT OUTER JOIN `userpollimages` ON `userpollimages`.`pollid`=`attach_userpoll`.`id`","WHERE `attach_userpoll`.`user`='$id'","GROUP BY `attach_userpoll`.`id`");
 	$this->load->view("json",$data);
+    }
 }
-    
+
     function getallpolls()
 {
+        
 	$data = json_decode(file_get_contents('php://input'), true);
-
+    $id=$data['id'];
+         if(empty($data)){
+       $data['message']=0;
+        $this->load->view("json",$data);
+     }
+     else
+     {
+    $followids=$this->restapi_model->userfollowedlist($id);
+        $ids="($id";
+        foreach($followids as $key=>$val)
+        {
+            if($key==0)
+                $ids=$ids.$val->userfollowed;
+            else
+                $ids=$ids.",".$val->userfollowed;
+        }
+        $ids.=")";   
 	$elements=array();
 	$elements[0]=new stdClass();
 	$elements[0]->field="`attach_userpoll`.`id`";
@@ -233,8 +257,9 @@ class Json extends CI_Controller
 		$orderby="id";
 		$orderorder="DESC";
 	}
-	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `attach_userpoll` LEFT OUTER JOIN `user` ON `user`.`id`=`attach_userpoll`.`user` LEFT OUTER JOIN `userpollimages` ON `userpollimages`.`pollid`=`attach_userpoll`.`id`","","GROUP BY `attach_userpoll`.`id`");
+	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `attach_userpoll` LEFT OUTER JOIN `user` ON `user`.`id`=`attach_userpoll`.`user` LEFT OUTER JOIN `userpollimages` ON `userpollimages`.`pollid`=`attach_userpoll`.`id` LEFT OUTER JOIN `attach_userfollow` ON `attach_userfollow`.`user`=`user`.`id`","WHERE `user`.`id` IN $ids","GROUP BY `attach_userpoll`.`id`");
 	$this->load->view("json",$data);
+    }
 }
 public function getsingleuserpoll()
 {
@@ -447,6 +472,12 @@ function getalluserpollcomment()
 {
 	$data = json_decode(file_get_contents('php://input'), true);
     $userpoll=$data['id'];
+     if(empty($data)){
+       $data['message']=0;
+        $this->load->view("json",$data);
+     }
+     else
+     {
 	$elements=array();
 	$elements[0]=new stdClass();
 	$elements[0]->field="`attach_userpollcomment`.`id`";
@@ -511,6 +542,7 @@ function getalluserpollcomment()
 	}
 	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM 			`attach_userpollcomment`","WHERE `attach_userpollcomment`.`userpoll`='$userpoll'");
 	$this->load->view("json",$data);
+}
 }
 public function getsingleuserpollcomment()
 {
@@ -594,17 +626,30 @@ public function getsingleuserfollow()
         $data = json_decode(file_get_contents('php://input'), true);
         $user=$data['user'];
         $userfollowed=$data['userfollowed'];
-        $creationdate=$data['creationdate'];
-        $data['message']=$this->restapi_model->userfollow($user,$userfollowed,$creationdate);
+      if(empty($data)){
+       $data['message']=0;
         $this->load->view("json",$data);
+     }
+     else
+     {
+        $data['message']=$this->restapi_model->userfollow($user,$userfollowed);
+        $this->load->view("json",$data);
+     }
     }
  public function userunfollow()
     {
         $data = json_decode(file_get_contents('php://input'), true);
         $user=$data['user'];
         $userfollowed=$data['userfollowed'];
+      if(empty($data)){
+       $data['message']=0;
+        $this->load->view("json",$data);
+     }
+     else
+     {
         $data['message']=$this->restapi_model->userunfollow($user,$userfollowed);
         $this->load->view("json",$data);
+     }
     }
  public function login()
     {
@@ -642,15 +687,29 @@ public function getsingleuserfollow()
         $content=$data['content'];
         $image=$data['images'];
         $status=$data['status'];
+      if(empty($data)){
+       $data['message']=0;
+        $this->load->view("json",$data);
+     }
+     else
+     {
         $data['message']=$this->restapi_model->edituserpoll($id,$content,$image,$status);
         $this->load->view("json",$data);
+     }
     } 
  public function deleteuserpoll()
     {
         $data = json_decode(file_get_contents('php://input'), true);
         $id=$data['pollid'];
+      if(empty($data)){
+       $data['message']=0;
+        $this->load->view("json",$data);
+     }
+     else
+     {
         $data['message']=$this->restapi_model->deleteuserpoll($id);
         $this->load->view("json",$data);
+     }
     } 
  public function createuserpollresponse()
     {
@@ -658,9 +717,30 @@ public function getsingleuserfollow()
         $userpolloption=$data['option'];
         $userpoll=$data['poll'];
         $user=$data['user'];
+       if(empty($data)){
+       $data['message']=0;
+        $this->load->view("json",$data);
+     }
+     else
+     {
         $data['message']=$this->restapi_model->createuserpollresponse($userpolloption,$userpoll,$user);
         $this->load->view("json",$data);
+     }
     } 
+       public function userdetails(){
+    $data = json_decode(file_get_contents('php://input'), true);
+    $userid=$data['userid'];
+    $followid=$data['followid'];
+            if(empty($data)){
+       $data['message']=0;
+        $this->load->view("json",$data);
+     }
+     else
+     {
+         $data['message']=$this->restapi_model->userdetails($userid,$followid);
+        $this->load->view("json",$data);
+     }
+    }
  public function edituserpollresponse()
     {
         $data = json_decode(file_get_contents('php://input'), true);
@@ -669,15 +749,29 @@ public function getsingleuserfollow()
         $userpoll=$data['userpoll'];
         $user=$data['user'];
         $modificationdate=$data['modificationdate'];
+      if(empty($data)){
+       $data['message']=0;
+        $this->load->view("json",$data);
+     }
+     else
+     {
         $data['message']=$this->restapi_model->edituserpollresponse($id,$userpolloption,$userpoll,$user,$modificationdate);
         $this->load->view("json",$data);
+     }
     } 
  public function deleteuserpollresponse()
     {
         $data = json_decode(file_get_contents('php://input'), true);
         $id=$data['id'];
+      if(empty($data)){
+       $data['message']=0;
+        $this->load->view("json",$data);
+     }
+     else
+     {
         $data['message']=$this->restapi_model->deleteuserpollresponse($id);
         $this->load->view("json",$data);
+     }
     }
  public function createuserpollfavourites()
     {
@@ -697,6 +791,12 @@ public function getsingleuserfollow()
     public function getfavouriteuserpolls(){
       $data = json_decode(file_get_contents('php://input'), true);
         $user=$data['userid'];
+         if(empty($data)){
+       $data['message']=0;
+        $this->load->view("json",$data);
+     }
+     else
+     {
        $elements=array();
 	$elements[0]=new stdClass();
 	$elements[0]->field="`attach_userpollfavourites`.`id`";
@@ -833,14 +933,21 @@ public function getsingleuserfollow()
 		}
 	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `attach_userpollfavourites` LEFT OUTER JOIN `attach_userpoll` ON `attach_userpoll`.`id`=`attach_userpollfavourites`.`userpoll` LEFT OUTER JOIN `attach_userpolloption` ON `attach_userpolloption`.`userpoll`=`attach_userpoll`.`id` LEFT OUTER JOIN `userpollimages` ON `userpollimages`.`pollid`=`attach_userpoll`.`id` ","WHERE `attach_userpollfavourites`.`user`='$user'","GROUP BY `attach_userpollfavourites`.`id`");
 	$this->load->view("json",$data);
-        
+     }
     }
  public function deleteuserpollfavourites()
     {
         $data = json_decode(file_get_contents('php://input'), true);
         $id=$data['id'];
+      if(empty($data)){
+       $data['message']=0;
+        $this->load->view("json",$data);
+     }
+     else
+     {
         $data['message']=$this->restapi_model->deleteuserpollfavourites($id);
         $this->load->view("json",$data);
+     }
     }
   public function createuserpolloption()
     {
@@ -849,8 +956,15 @@ public function getsingleuserfollow()
         $image=$data['image'];
         $userpoll=$data['userpoll'];
         $creationdate=$data['creationdate'];
+       if(empty($data)){
+       $data['message']=0;
+        $this->load->view("json",$data);
+     }
+     else
+     {
         $data['message']=$this->restapi_model->createuserpolloption($text,$image,$userpoll,$creationdate);
         $this->load->view("json",$data);
+     }
     } 
     public function authenticate() {
         $data['message'] = $this->user_model->authenticate();
@@ -864,15 +978,29 @@ public function getsingleuserfollow()
         $image=$data['image'];
         $userpoll=$data['userpoll'];
         $modificationdate=$data['modificationdate'];
+      if(empty($data)){
+       $data['message']=0;
+        $this->load->view("json",$data);
+     }
+     else
+     {
         $data['message']=$this->restapi_model->edituserpolloption($id,$text,$image,$userpoll,$modificationdate);
         $this->load->view("json",$data);
+     }
     } 
  public function deleteuserpolloption()
     {
         $data = json_decode(file_get_contents('php://input'), true);
         $id=$data['id'];
+      if(empty($data)){
+       $data['message']=0;
+        $this->load->view("json",$data);
+     }
+     else
+     {
         $data['message']=$this->restapi_model->deleteuserpolloption($id);
         $this->load->view("json",$data);
+     }
     }
   public function createuserpollcomment()
     {
@@ -881,27 +1009,55 @@ public function getsingleuserfollow()
         $userpoll=$data['userpoll'];
         $content=$data['content'];
         $creationdate=$data['creationdate'];
+       if(empty($data)){
+       $data['message']=0;
+        $this->load->view("json",$data);
+     }
+     else
+     {
         $data['message']=$this->restapi_model->createuserpollcomment($user,$userpoll,$content,$creationdate);
         $this->load->view("json",$data);
+     }
     }  
  public function deleteuserpollcomment()
     {
         $data = json_decode(file_get_contents('php://input'), true);
         $id=$data['id'];
+      if(empty($data)){
+       $data['message']=0;
+        $this->load->view("json",$data);
+     }
+     else
+     {
         $data['message']=$this->restapi_model->deleteuserpollcomment($id);
         $this->load->view("json",$data);
+     }
     }
  public function countoffavourites(){
  		$data = json_decode(file_get_contents('php://input'), true);
         $userpoll=$data['id'];
+      if(empty($data)){
+       $data['message']=0;
+        $this->load->view("json",$data);
+     }
+     else
+     {
         $data['message']=$this->restapi_model->countoffavourites($userpoll);
         $this->load->view("json",$data);
+     }
  }
   public function viewallfollowedlatest(){
  		$data = json_decode(file_get_contents('php://input'), true);
         $user=$data['user'];
+       if(empty($data)){
+       $data['message']=0;
+        $this->load->view("json",$data);
+     }
+     else
+     {
         $data['message']=$this->restapi_model->viewallfollowedlatest($user);
         $this->load->view("json",$data);
+     }
  }
  public function imageupload() 
     {
@@ -942,6 +1098,9 @@ public function getsingleuserfollow()
 //            $this->load->view("json2",$data); 
 //        }
     }
-
+    public function getalluser(){
+     $data['message']=$this->restapi_model->getalluser();
+        $this->load->view("json",$data);
+    }
  
 } ?>

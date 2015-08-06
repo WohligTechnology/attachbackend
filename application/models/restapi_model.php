@@ -16,11 +16,14 @@ class restapi_model extends CI_Model {
 	$query['commentcount']=$query['commentcount']->commentcount;
 	return $query;
 }
-	public function userfollow($user,$userfollowed,$creationdate){
-	 	$data = array("user" => $user, "userfollowed" => $userfollowed, "creationdate" => $creationdate);
+	public function userfollow($user,$userfollowed){
+	 	$data = array("user" => $user, "userfollowed" => $userfollowed);
      	$query = $this->db->insert("attach_userfollow", $data);
      	$id = $this->db->insert_id();
-		return $id;
+        if($id)
+		return true;
+        else
+            return false;
 	}
 	public function userunfollow($user,$userfollowed){
 	 $query=$this->db->query("DELETE FROM `attach_userfollow` WHERE `user`='$user' AND `userfollowed`='$userfollowed'");
@@ -157,7 +160,27 @@ return $query;
 	$query=$this->db->query("SELECT `id`, `user`, `userfollowed`, `timestamp`, `creationdate`, `modificationdate` FROM `attach_userfollow` WHERE `user`='$user'")->result();
 		return $query;
 	}
+    public function userfollowedlist($id){
+    	$query=$this->db->query("SELECT `userfollowed` FROM `attach_userfollow` WHERE `user`='$id'")->result();
+		return $query;
+    }
+    public function userdetails($userid,$followid){
+    $query=$this->db->query("SELECT `user`.`id`, `user`.`name`, `user`.`password`, `user`.`email`, `user`.`accesslevel`, `user`.`timestamp`, `user`.`status`, `user`.`image`, `user`.`username`, `user`.`socialid`, `user`.`logintype`, `user`.`json`, `user`.`dob`, `user`.`facebook`, `user`.`twitter`, `user`.`creationdate`, `user`.`modificationdate`, `user`.`street`, `user`.`address`, `user`.`city`, `user`.`state`, `user`.`pincode`, `user`.`country`, `user`.`google` FROM `user` LEFT OUTER JOIN `attach_userfollow` ON `attach_userfollow`.`user`=`user`.`id` WHERE `user`.`id`='$followid'")->row();
+        $query->isfollowed=false;
+        $query2=$this->db->query("SELECT `id` FROM `attach_userfollow` WHERE `user`='$userid' AND `userfollowed`='$followid'")->result();
+        	if ( empty($query2) ) 
+            {
+            }
+        else
+        {
+		 $query->isfollowed=true;
+    }
+        return $query;
+    }
     
-   
+    public function getalluser(){
+    $query=$this->db->query("SELECT `id`, `name`, `password`, `email`, `accesslevel`, `timestamp`, `status`, `image`, `username`, `socialid`, `logintype`, `json`, `dob`, `facebook`, `twitter`, `creationdate`, `modificationdate`, `street`, `address`, `city`, `state`, `pincode`, `country`, `google` FROM `user`")->result();
+		return $query;
+    }
 }
 ?>
