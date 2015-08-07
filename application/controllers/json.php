@@ -482,7 +482,7 @@ public function getsingleuserpollfavourites()
     public function deletefavourite()
 {
 	$id=$this->input->get_post("id");
-	$data["message"]=$this->userpollfavourites_model->deletefavourite($id);
+	$data["message"]=$this->restapi_model->deletefavourite($id);
 	$this->load->view("json",$data);
 }
     
