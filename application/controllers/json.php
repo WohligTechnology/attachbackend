@@ -138,6 +138,9 @@ class Json extends CI_Controller
      else
      {
     $followids=$this->restapi_model->userfollowedlist($id);
+//           print_r($followids);
+//    $favids=$this->restapi_model->getpollids($followids,$id);
+//         print_r($favids);
         $ids="($id";
         foreach($followids as $key=>$val)
         {
@@ -147,6 +150,8 @@ class Json extends CI_Controller
                 $ids=$ids.",".$val->userfollowed;
         }
         $ids.=")";   
+//         
+         
 	$elements=array();
 	$elements[0]=new stdClass();
 	$elements[0]->field="`attach_userpoll`.`id`";
@@ -242,7 +247,13 @@ class Json extends CI_Controller
 	$elements[15]->field="GROUP_CONCAT(`userpollimages`.`image`)";
 	$elements[15]->sort="1";
 	$elements[15]->header="images";
-	$elements[15]->alias="images";
+	$elements[15]->alias="images"; 
+         
+    $elements[16]=new stdClass();
+	$elements[16]->field="`attach_userpollfavourites`.`id`";
+	$elements[16]->sort="1";
+	$elements[16]->header="favid";
+	$elements[16]->alias="favid";
 
 	$search=$this->input->get_post("search");
 	$pageno=$this->input->get_post("pageno");
@@ -257,7 +268,7 @@ class Json extends CI_Controller
 		$orderby="id";
 		$orderorder="DESC";
 	}
-	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `attach_userpoll` LEFT OUTER JOIN `user` ON `user`.`id`=`attach_userpoll`.`user` LEFT OUTER JOIN `userpollimages` ON `userpollimages`.`pollid`=`attach_userpoll`.`id` LEFT OUTER JOIN `attach_userfollow` ON `attach_userfollow`.`user`=`user`.`id`","WHERE `user`.`id` IN $ids","GROUP BY `attach_userpoll`.`id`");
+	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `attach_userpoll` LEFT OUTER JOIN `user` ON `user`.`id`=`attach_userpoll`.`user` LEFT OUTER JOIN `userpollimages` ON `userpollimages`.`pollid`=`attach_userpoll`.`id` LEFT OUTER JOIN `attach_userfollow` ON `attach_userfollow`.`user`=`user`.`id` LEFT OUTER JOIN `attach_userpollfavourites` ON `attach_userpollfavourites`.`userpoll`=`attach_userpoll`.`id`","WHERE `user`.`id` IN $ids","GROUP BY `attach_userpoll`.`id`");
 	$this->load->view("json",$data);
     }
 }

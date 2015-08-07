@@ -182,5 +182,25 @@ return $query;
     $query=$this->db->query("SELECT `id`, `name`, `password`, `email`, `accesslevel`, `timestamp`, `status`, `image`, `username`, `socialid`, `logintype`, `json`, `dob`, `facebook`, `twitter`, `creationdate`, `modificationdate`, `street`, `address`, `city`, `state`, `pincode`, `country`, `google` FROM `user`")->result();
 		return $query;
     }
+//    public function getpollids($followids,$id){
+//        foreach($followids as $followid){
+//       $query=$this->db->query("SELECT `id` FROM `attach_userpoll` WHERE `user`='$followid->userfollowed'");
+//        
+//        if($query->num_rows()>0){
+//        $query1=$query->result();
+//            foreach($query1 as $q)
+//                {
+//                print_r($q);
+//                     $query2=$this->db->query("SELECT `id` FROM `attach_userpollfavourites` WHERE `user`='$id' AND `userpoll`='$q->id'"); 
+//                if($query2->num_rows()> 0){
+//                return true;
+//                }
+//              
+//                 }
+//        }
+//        }
+//		return $query;
+//    }
 }
 ?>
+
