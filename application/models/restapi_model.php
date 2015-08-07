@@ -182,6 +182,11 @@ return $query;
     $query=$this->db->query("SELECT `id`, `name`, `password`, `email`, `accesslevel`, `timestamp`, `status`, `image`, `username`, `socialid`, `logintype`, `json`, `dob`, `facebook`, `twitter`, `creationdate`, `modificationdate`, `street`, `address`, `city`, `state`, `pincode`, `country`, `google` FROM `user`")->result();
 		return $query;
     }
+    
+    public function deletefavourite(){
+    $query=$this->db->query("DELETE FROM `attach_userpollfavourites` WHERE `id`='$id'");
+        return $query;
+    }
 //    public function getpollids($followids,$id){
 //        foreach($followids as $followid){
 //       $query=$this->db->query("SELECT `id` FROM `attach_userpoll` WHERE `user`='$followid->userfollowed'");

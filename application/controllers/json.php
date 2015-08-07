@@ -150,7 +150,7 @@ class Json extends CI_Controller
                 $ids=$ids.",".$val->userfollowed;
         }
         $ids.=")";   
-//         
+         
          
 	$elements=array();
 	$elements[0]=new stdClass();
@@ -249,8 +249,8 @@ class Json extends CI_Controller
 	$elements[15]->header="images";
 	$elements[15]->alias="images"; 
          
-    $elements[16]=new stdClass();
-	$elements[16]->field="`attach_userpollfavourites`.`id`";
+    $elements[16]=new stdClass();  
+	$elements[16]->field="IFNULL(`attach_userpollfavourites`.`id`,0)";
 	$elements[16]->sort="1";
 	$elements[16]->header="favid";
 	$elements[16]->alias="favid";
@@ -479,6 +479,13 @@ public function getsingleuserpollfavourites()
 	$data["message"]=$this->userpollfavourites_model->getsingleuserpollfavourites($id);
 	$this->load->view("json",$data);
 }
+    public function deletefavourite()
+{
+	$id=$this->input->get_post("id");
+	$data["message"]=$this->userpollfavourites_model->deletefavourite($id);
+	$this->load->view("json",$data);
+}
+    
 function getalluserpollcomment()
 {
 	$data = json_decode(file_get_contents('php://input'), true);
@@ -630,7 +637,8 @@ public function getsingleuserfollow()
    public function logout()
     {
         $this->session->sess_destroy();
-		$this->load->view('json',true);
+       $data['message']=true;
+		$this->load->view('json',$data);
     }
  public function userfollow()
     {
