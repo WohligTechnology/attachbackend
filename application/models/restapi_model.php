@@ -175,6 +175,8 @@ return $query;
         {
 		 $query->isfollowed=true;
     }
+         $query->followed=$this->db->query("SELECT COUNT(*) as `followed`  FROM `attach_userfollow` WHERE `user`='$userid'")->row();
+         $query->following=$this->db->query("SELECT COUNT(*) as `following` FROM `attach_userfollow` WHERE `userfollowed`='$userid'")->row();
         return $query;
     }
     
