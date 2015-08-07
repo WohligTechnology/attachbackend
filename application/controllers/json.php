@@ -1145,5 +1145,10 @@ public function getsingleuserfollow()
      $data['message']=$this->restapi_model->getalluser();
         $this->load->view("json",$data);
     }
+    public function getprofiledetails(){
+        $id=$this->input->get('id');
+     $data['message']=$this->restapi_model->getprofiledetails($id);
+        $this->load->view("json",$data);
+    }
  
 } ?>

@@ -189,6 +189,13 @@ return $query;
     $query=$this->db->query("DELETE FROM `attach_userpollfavourites` WHERE `id`='$id'");
         return $query;
     }
+    public function getprofiledetails($id){
+        $query=$this->db->query("SELECT `user`.`id`, `user`.`name`, `user`.`password`, `user`.`email`, `user`.`accesslevel`, `user`.`timestamp`, `user`.`status`, `user`.`image`, `user`.`username`, `user`.`socialid`, `user`.`logintype`, `user`.`json`, `user`.`dob`, `user`.`facebook`, `user`.`twitter`, `user`.`creationdate`, `user`.`modificationdate`, `user`.`street`, `user`.`address`, `user`.`city`, `user`.`state`, `user`.`pincode`, `user`.`country`, `user`.`google` FROM `user` WHERE `user`.`id`='$id'")->row();
+        
+          $query->followed=$this->db->query("SELECT COUNT(*) as `followed`  FROM `attach_userfollow` WHERE `user`='$id'")->row();
+         $query->following=$this->db->query("SELECT COUNT(*) as `following` FROM `attach_userfollow` WHERE `userfollowed`='$id'")->row();
+    return $query;
+    }
 //    public function getpollids($followids,$id){
 //        foreach($followids as $followid){
 //       $query=$this->db->query("SELECT `id` FROM `attach_userpoll` WHERE `user`='$followid->userfollowed'");
