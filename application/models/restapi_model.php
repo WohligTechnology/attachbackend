@@ -136,7 +136,10 @@ return $query;
 	$data = array("user" => $user, "content" => $content, "userpoll" => $userpoll);
      	$query = $this->db->insert("attach_userpollcomment", $data);
      	$id = $this->db->insert_id();
+        if($id)
 		return true;
+        else
+            return false;
 	}	
 	public function deleteuserpollcomment($id)
     {
