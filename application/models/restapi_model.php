@@ -196,7 +196,7 @@ return $query;
          $query->following=$this->db->query("SELECT COUNT(*) as `following` FROM `attach_userfollow` WHERE `userfollowed`='$id'")->row();
     return $query;
     }
-    public function edituserpollcomment($user,$userpoll,$content){
+    public function edituserpollcomment($id,$user,$userpoll,$content){
  	$data = array("user" => $user, "content" => $content, "userpoll" => $userpoll);
     $this->db->where('id', $id);
     $this->db->update('attach_userpollcomment', $data); 

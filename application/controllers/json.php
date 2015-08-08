@@ -1064,6 +1064,7 @@ public function getsingleuserfollow()
     public function edituserpollcomment()
     {
         $data = json_decode(file_get_contents('php://input'), true);
+        $id=$data['commentid']
         $user=$data['user'];
         $userpoll=$data['userpoll'];
         $content=$data['content'];
@@ -1073,7 +1074,7 @@ public function getsingleuserfollow()
      }
      else
      {
-        $data['message']=$this->restapi_model->edituserpollcomment($user,$userpoll,$content);
+        $data['message']=$this->restapi_model->edituserpollcomment($id,$user,$userpoll,$content);
         $this->load->view("json",$data);
      }
     }  
