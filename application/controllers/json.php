@@ -1051,14 +1051,29 @@ public function getsingleuserfollow()
         $user=$data['user'];
         $userpoll=$data['userpoll'];
         $content=$data['content'];
-        $creationdate=$data['creationdate'];
        if(empty($data)){
        $data['message']=0;
         $this->load->view("json",$data);
      }
      else
      {
-        $data['message']=$this->restapi_model->createuserpollcomment($user,$userpoll,$content,$creationdate);
+        $data['message']=$this->restapi_model->createuserpollcomment($user,$userpoll,$content);
+        $this->load->view("json",$data);
+     }
+    }
+    public function edituserpollcomment()
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $user=$data['user'];
+        $userpoll=$data['userpoll'];
+        $content=$data['content'];
+       if(empty($data)){
+       $data['message']=0;
+        $this->load->view("json",$data);
+     }
+     else
+     {
+        $data['message']=$this->restapi_model->edituserpollcomment($user,$userpoll,$content);
         $this->load->view("json",$data);
      }
     }  

@@ -117,32 +117,32 @@ return $query;
 }
 	public function createuserpolloption($text,$image,$userpoll,$creationdate){
 	$data = array("text" => $text, "image" => $image, "userpoll" => $userpoll,"creationdate" => $creationdate);
-     	$query = $this->db->insert("attach_userpolloption", $data);
-     	$id = $this->db->insert_id();
-		return $id;
+    $query = $this->db->insert("attach_userpolloption", $data);
+    $id = $this->db->insert_id();
+    return $id;
 	}	
 	public function edituserpolloption($id,$text,$image,$userpoll,$modificationdate){
 	$data = array("text" => $text, "image" => $image, "userpoll" => $userpoll,"modificationdate" => $modificationdate);
-     	$this->db->where( "id", $id );
-		$query=$this->db->update( "attach_userpolloption", $data );
-		return 1;
+    $this->db->where( "id", $id );
+    $query=$this->db->update( "attach_userpolloption", $data );
+    return 1;
 	}
-	public function deleteuserpolloption($id)
-{
-$query=$this->db->query("DELETE FROM `attach_userpolloption` WHERE `id`='$id'");
-return $query;
-}
-	public function createuserpollcomment($user,$userpoll,$content,$creationdate){
-	$data = array("user" => $user, "content" => $content, "userpoll" => $userpoll,"creationdate" => $creationdate);
+    public function deleteuserpolloption($id)
+    {
+    $query=$this->db->query("DELETE FROM `attach_userpolloption` WHERE `id`='$id'");
+    return $query;
+    }
+	public function createuserpollcomment($user,$userpoll,$content){
+	$data = array("user" => $user, "content" => $content, "userpoll" => $userpoll);
      	$query = $this->db->insert("attach_userpollcomment", $data);
      	$id = $this->db->insert_id();
-		return $id;
+		return true;
 	}	
 	public function deleteuserpollcomment($id)
-{
-$query=$this->db->query("DELETE FROM `attach_userpollcomment` WHERE `id`='$id'");
-return $query;
-}
+    {
+    $query=$this->db->query("DELETE FROM `attach_userpollcomment` WHERE `id`='$id'");
+    return $query;
+    }
 	public function countoffavourites($userpoll){
 	$query['viewsinglepoll']=$this->db->query("SELECT `id`, `image`, `title`, `video`, `user`, `status`, `shouldhavecomment`, `timestamp`, `content`, `creationdate`, `modificationdate` FROM `attach_userpoll` WHERE 'id'='$userpoll'")->row();	
 	
@@ -195,6 +195,11 @@ return $query;
           $query->followed=$this->db->query("SELECT COUNT(*) as `followed`  FROM `attach_userfollow` WHERE `user`='$id'")->row();
          $query->following=$this->db->query("SELECT COUNT(*) as `following` FROM `attach_userfollow` WHERE `userfollowed`='$id'")->row();
     return $query;
+    }
+    public function edituserpollcomment($user,$userpoll,$content){
+ 	$data = array("user" => $user, "content" => $content, "userpoll" => $userpoll);
+    $this->db->where('id', $id);
+    $this->db->update('attach_userpollcomment', $data); 
     }
 //    public function getpollids($followids,$id){
 //        foreach($followids as $followid){
