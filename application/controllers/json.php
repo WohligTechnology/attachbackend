@@ -534,16 +534,16 @@ function getalluserpollcomment()
 	$elements[5]->alias="content";
 
 	$elements[6]=new stdClass();
-	$elements[6]->field="`attach_userpollcomment`.`creationdate`";
+	$elements[6]->field="`user`.`name`";
 	$elements[6]->sort="1";
-	$elements[6]->header="Creation Date";
-	$elements[6]->alias="creationdate";
+	$elements[6]->header="name";
+	$elements[6]->alias="name";
 
 	$elements[7]=new stdClass();
-	$elements[7]->field="`attach_userpollcomment`.`modificationdate`";
+	$elements[7]->field="`user`.`image`";
 	$elements[7]->sort="1";
-	$elements[7]->header="Modification Date";
-	$elements[7]->alias="modificationdate";
+	$elements[7]->header="image";
+	$elements[7]->alias="image";
 
 	$search=$this->input->get_post("search");
 	$pageno=$this->input->get_post("pageno");
@@ -558,7 +558,7 @@ function getalluserpollcomment()
 		$orderby="id";
 		$orderorder="ASC";
 	}
-	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM 			`attach_userpollcomment`","WHERE `attach_userpollcomment`.`userpoll`='$userpoll'");
+	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `attach_userpollcomment` LEFT OUTER JOIN `user` ON `user`.`id`=`attach_userpollcomment`.`user`","WHERE `attach_userpollcomment`.`userpoll`='$userpoll'");
 	$this->load->view("json",$data);
 }
 }
@@ -1158,9 +1158,128 @@ public function getsingleuserfollow()
 //        }
     }
     public function getalluser(){
-     $data['message']=$this->restapi_model->getalluser();
-        $this->load->view("json",$data);
+    $elements=array();
+	$elements[0]=new stdClass();
+	$elements[0]->field="`user`.`name`";
+	$elements[0]->sort="1";
+	$elements[0]->header="name";
+	$elements[0]->alias="name";
+
+	$elements[1]=new stdClass();
+	$elements[1]->field="`user`.`email`";
+	$elements[1]->sort="1";
+	$elements[1]->header="email";
+	$elements[1]->alias="email";
+    
+    $elements[2]=new stdClass();
+	$elements[2]->field="`user`.`image`";
+	$elements[2]->sort="1";
+	$elements[2]->header="image";
+	$elements[2]->alias="image";
+    
+    $elements[3]=new stdClass();
+	$elements[3]->field="`user`.`username`";
+	$elements[3]->sort="1";
+	$elements[3]->header="username";
+	$elements[3]->alias="username";
+    
+    $elements[4]=new stdClass();
+	$elements[4]->field="`user`.`dob`";
+	$elements[4]->sort="1";
+	$elements[4]->header="dob";
+	$elements[4]->alias="dob";
+    
+    $elements[5]=new stdClass();
+	$elements[5]->field="`user`.`id`";
+	$elements[5]->sort="1";
+	$elements[5]->header="userid";
+	$elements[5]->alias="userid"; 
+        
+    $elements[6]=new stdClass();
+	$elements[6]->field="`user`.`dob`";
+	$elements[6]->sort="1";
+	$elements[6]->header="dob";
+	$elements[6]->alias="dob"; 
+        
+    $elements[7]=new stdClass();
+	$elements[7]->field="`user`.`timestamp`";
+	$elements[7]->sort="1";
+	$elements[7]->header="timestamp";
+	$elements[7]->alias="timestamp"; 
+        
+    $elements[8]=new stdClass();
+	$elements[8]->field="`user`.`facebook`";
+	$elements[8]->sort="1";
+	$elements[8]->header="facebook";
+	$elements[8]->alias="facebook";
+        
+    $elements[9]=new stdClass();
+	$elements[9]->field="`user`.`twitter`";
+	$elements[9]->sort="1";
+	$elements[9]->header="twitter";
+	$elements[9]->alias="twitter"; 
+        
+    $elements[10]=new stdClass();
+	$elements[10]->field="`user`.`google`";
+	$elements[10]->sort="1";
+	$elements[10]->header="google";
+	$elements[10]->alias="google";
+        
+    $elements[11]=new stdClass();
+	$elements[11]->field="`user`.`street`";
+	$elements[11]->sort="1";
+	$elements[11]->header="street";
+	$elements[11]->alias="street"; 
+        
+    $elements[12]=new stdClass();
+	$elements[12]->field="`user`.`address`";
+	$elements[12]->sort="1";
+	$elements[12]->header="address";
+	$elements[12]->alias="address";    
+        
+    $elements[13]=new stdClass();
+	$elements[13]->field="`user`.`city`";
+	$elements[13]->sort="1";
+	$elements[13]->header="city";
+	$elements[13]->alias="city";  
+        
+    $elements[14]=new stdClass();
+	$elements[14]->field="`user`.`state`";
+	$elements[14]->sort="1";
+	$elements[14]->header="state";
+	$elements[14]->alias="state";  
+        
+    $elements[15]=new stdClass();
+	$elements[15]->field="`user`.`pincode`";
+	$elements[15]->sort="1";
+	$elements[15]->header="pincode";
+	$elements[15]->alias="pincode"; 
+        
+    $elements[16]=new stdClass();
+	$elements[16]->field="`user`.`country`";
+	$elements[16]->sort="1";
+	$elements[16]->header="country";
+	$elements[16]->alias="country";
+
+   
+
+	$search=$this->input->get_post("search");
+	$pageno=$this->input->get_post("pageno");
+	$orderby=$this->input->get_post("orderby");
+	$orderorder=$this->input->get_post("orderorder");
+	$maxrow=$this->input->get_post("maxrow");
+		if($maxrow=="")
+	{
+	}
+		if($orderby=="")
+	{
+		$orderby="id";
+		$orderorder="ASC";
+	}
+	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `user`");
+	$this->load->view("json",$data);
     }
+    
     public function getprofiledetails(){
         $id=$this->input->get('id');
      $data['message']=$this->restapi_model->getprofiledetails($id);
