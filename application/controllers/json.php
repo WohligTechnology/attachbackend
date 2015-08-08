@@ -1064,7 +1064,7 @@ public function getsingleuserfollow()
     public function edituserpollcomment()
     {
         $data = json_decode(file_get_contents('php://input'), true);
-        $id=$data['commentid']
+        $id=$data['commentid'];
         $user=$data['user'];
         $userpoll=$data['userpoll'];
         $content=$data['content'];
