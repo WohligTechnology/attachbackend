@@ -268,7 +268,7 @@ class Json extends CI_Controller
 		$orderby="id";
 		$orderorder="DESC";
 	}
-	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `attach_userpoll` LEFT OUTER JOIN `user` ON `user`.`id`=`attach_userpoll`.`user` LEFT OUTER JOIN `userpollimages` ON `userpollimages`.`pollid`=`attach_userpoll`.`id` LEFT OUTER JOIN `attach_userfollow` ON `attach_userfollow`.`user`=`user`.`id` LEFT OUTER JOIN `attach_userpollfavourites` ON `attach_userpollfavourites`.`userpoll`=`attach_userpoll`.`id`","WHERE `user`.`id` IN $ids","GROUP BY `attach_userpoll`.`id`");
+	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `attach_userpoll` LEFT OUTER JOIN `user` ON `user`.`id`=`attach_userpoll`.`user` LEFT OUTER JOIN `userpollimages` ON `userpollimages`.`pollid`=`attach_userpoll`.`id` LEFT OUTER JOIN `attach_userfollow` ON `attach_userfollow`.`user`=`user`.`id` LEFT OUTER JOIN `attach_userpollfavourites` ON `attach_userpollfavourites`.`userpoll`=`attach_userpoll`.`id` AND `attach_userpollfavourites`.`user`='$id'","WHERE `user`.`id` IN $ids","GROUP BY `attach_userpoll`.`id`");
 	$this->load->view("json",$data);
     }
 }
