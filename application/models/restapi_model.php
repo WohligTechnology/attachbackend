@@ -213,6 +213,15 @@ return $query;
     $this->db->where('id', $id);
     $this->db->update('attach_userpollcomment', $data); 
     }
+    public function editprofile($userid,$address,$coverimage,$name,$website,$dob){
+    $data = array("address" => $address, "coverimage" => $coverimage, "name" => $name, "website" => $website,"dob" => $dob);
+    $this->db->where('id', $userid);
+    $query=$this->db->update('user', $data); 
+        if($query)
+     return 1;
+        else
+    return 0;
+    }
 //    public function getpollids($followids,$id){
 //        foreach($followids as $followid){
 //       $query=$this->db->query("SELECT `id` FROM `attach_userpoll` WHERE `user`='$followid->userfollowed'");

@@ -129,14 +129,15 @@ class Json extends CI_Controller
     function getallpolls()
 {
         
-	$data = json_decode(file_get_contents('php://input'), true);
-    $id=$data['id'];
-         if(empty($data)){
-       $data['message']=0;
-        $this->load->view("json",$data);
-     }
-     else
-     {
+//	$data = json_decode(file_get_contents('php://input'), true);
+//    $id=$data['id'];
+        $id=$this->input->get_post("id");
+//         if(empty($data)){
+//       $data['message']=0;
+//        $this->load->view("json",$data);
+//     }
+//     else
+//     {
     $followids=$this->restapi_model->userfollowedlist($id);
 //           print_r($followids);
 //    $favids=$this->restapi_model->getpollids($followids,$id);
@@ -270,7 +271,7 @@ class Json extends CI_Controller
 	}
 	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `attach_userpoll` LEFT OUTER JOIN `user` ON `user`.`id`=`attach_userpoll`.`user` LEFT OUTER JOIN `userpollimages` ON `userpollimages`.`pollid`=`attach_userpoll`.`id` LEFT OUTER JOIN `attach_userfollow` ON `attach_userfollow`.`user`=`user`.`id` LEFT OUTER JOIN `attach_userpollfavourites` ON `attach_userpollfavourites`.`userpoll`=`attach_userpoll`.`id` AND `attach_userpollfavourites`.`user`='$id'","WHERE `user`.`id` IN $ids","GROUP BY `attach_userpoll`.`id`");
 	$this->load->view("json",$data);
-    }
+    
 }
 public function getsingleuserpoll()
 {
@@ -1278,6 +1279,24 @@ public function getsingleuserfollow()
         $id=$this->input->get('id');
      $data['message']=$this->restapi_model->getprofiledetails($id);
         $this->load->view("json",$data);
+    } 
+    public function editprofile(){
+     $data = json_decode(file_get_contents('php://input'), true);
+        $userid=$data['id'];
+        $address=$data['location'];
+        $coverimage=$data['coverimage'];
+        $name=$data['name'];
+        $website=$data['website'];
+        $dob=$data['dob'];
+       if(empty($data)){
+       $data['message']=0;
+        $this->load->view("json",$data);
+     }
+     else
+     {
+        $data['message']=$this->restapi_model->editprofile($userid,$address,$coverimage,$name,$website,$dob);
+        $this->load->view("json",$data);
+     }
     }
  
 } ?>
