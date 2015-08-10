@@ -3,14 +3,15 @@ class Json extends CI_Controller
 {
     function getalluserpoll()
 {
-	$data = json_decode(file_get_contents('php://input'), true);
-    $id=$data['id'];
-         if(empty($data)){
-       $data['message']=0;
-        $this->load->view("json",$data);
-     }
-     else
-     {
+        $id=$this->input->get('id');
+//	$data = json_decode(file_get_contents('php://input'), true);
+//    $id=$data['id'];
+//         if(empty($data)){
+//       $data['message']=0;
+//        $this->load->view("json",$data);
+//     }
+//     else
+//     {
 	$elements=array();
 	$elements[0]=new stdClass();
 	$elements[0]->field="`attach_userpoll`.`id`";
@@ -123,7 +124,7 @@ class Json extends CI_Controller
 	}
 	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `attach_userpoll` LEFT OUTER JOIN `user` ON `user`.`id`=`attach_userpoll`.`user` LEFT OUTER JOIN `userpollimages` ON `userpollimages`.`pollid`=`attach_userpoll`.`id`","WHERE `attach_userpoll`.`user`='$id'","GROUP BY `attach_userpoll`.`id`");
 	$this->load->view("json",$data);
-    }
+    
 }
 
     function getallpolls()
@@ -809,14 +810,15 @@ public function getsingleuserfollow()
      }
     } 
     public function getfavouriteuserpolls(){
-      $data = json_decode(file_get_contents('php://input'), true);
-        $user=$data['userid'];
-         if(empty($data)){
-       $data['message']=0;
-        $this->load->view("json",$data);
-     }
-     else
-     {
+        $user=$this->input->get("userid");
+//      $data = json_decode(file_get_contents('php://input'), true);
+//        $user=$data['userid'];
+//         if(empty($data)){
+//       $data['message']=0;
+//        $this->load->view("json",$data);
+//     }
+//     else
+//     {
        $elements=array();
 	$elements[0]=new stdClass();
 	$elements[0]->field="`attach_userpollfavourites`.`id`";
@@ -971,7 +973,7 @@ public function getsingleuserfollow()
 		}
 	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `attach_userpollfavourites` LEFT OUTER JOIN `attach_userpoll` ON `attach_userpoll`.`id`=`attach_userpollfavourites`.`userpoll` LEFT OUTER JOIN `attach_userpolloption` ON `attach_userpolloption`.`userpoll`=`attach_userpoll`.`id` LEFT OUTER JOIN `userpollimages` ON `userpollimages`.`pollid`=`attach_userpoll`.`id` LEFT OUTER JOIN `user` ON `user`.`id`=`attach_userpoll`.`user`","WHERE `attach_userpollfavourites`.`user`='$user'","GROUP BY `attach_userpollfavourites`.`id`");
 	$this->load->view("json",$data);
-     }
+     
     }
  public function deleteuserpollfavourites()
     {
