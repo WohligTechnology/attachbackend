@@ -937,12 +937,6 @@ public function getsingleuserfollow()
 	$elements[19]->header="optiontext";
 	$elements[19]->alias="optiontext"; 
          
-    $elements[19]=new stdClass();
-	$elements[19]->field="`user`.`id`";
-	$elements[19]->sort="1";
-	$elements[19]->header="userid";
-	$elements[19]->alias="userid";
-         
     $elements[20]=new stdClass();
 	$elements[20]->field="`user`.`image`";
 	$elements[20]->sort="1";
@@ -974,7 +968,7 @@ public function getsingleuserfollow()
 	$orderby="id";
 	$orderorder="ASC";
 		}
-	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `attach_userpollfavourites` LEFT OUTER JOIN `attach_userpoll` ON `attach_userpoll`.`id`=`attach_userpollfavourites`.`userpoll` LEFT OUTER JOIN `attach_userpolloption` ON `attach_userpolloption`.`userpoll`=`attach_userpoll`.`id` LEFT OUTER JOIN `userpollimages` ON `userpollimages`.`pollid`=`attach_userpoll`.`id` LEFT OUTER JOIN `user` ON `user`.`id`=`attach_userpollfavourites`.`user`","WHERE `attach_userpoll`.`id`='$user'","GROUP BY `attach_userpollfavourites`.`id`");
+	$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `attach_userpollfavourites` LEFT OUTER JOIN `attach_userpoll` ON `attach_userpoll`.`id`=`attach_userpollfavourites`.`userpoll` LEFT OUTER JOIN `attach_userpolloption` ON `attach_userpolloption`.`userpoll`=`attach_userpoll`.`id` LEFT OUTER JOIN `userpollimages` ON `userpollimages`.`pollid`=`attach_userpoll`.`id` LEFT OUTER JOIN `user` ON `user`.`id`=`attach_userpoll`.`user`","WHERE `attach_userpollfavourites`.`user`='$user'","GROUP BY `attach_userpollfavourites`.`id`");
 	$this->load->view("json",$data);
      }
     }
