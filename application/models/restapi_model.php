@@ -90,8 +90,13 @@ class restapi_model extends CI_Model {
 	public function createuserpollresponse($userpolloption,$userpoll,$user){
         $query1=$this->db->query("SELECT `id` FROM `attach_userpollresponse` WHERE `user`='$user' AND `userpoll`='$userpoll'");	
         if($query1->num_rows>0){
-            echo "exists";
-        return false;
+        $query2=$this->db->query("DELETE FROM `attach_userpollresponse` WHERE `user`='$user' AND `userpoll`='$userpoll'");
+            
+          $data = array("user" => $user, "userpolloption" => $userpolloption, "userpoll" => $userpoll);
+     	$query = $this->db->insert("attach_userpollresponse", $data);
+     	$id = $this->db->insert_id();  
+            echo "if";
+        return true;
         }
         else {
        
