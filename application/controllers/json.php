@@ -1303,6 +1303,7 @@ public function getsingleuserfollow()
     public function shareuserpoll(){
      $data = json_decode(file_get_contents('php://input'), true);
         $userid=$data['userid'];
+        $pollid=$data['pollid'];
         $share=$data['share'];
          if(empty($data)){
        $data['message']=0;
@@ -1310,7 +1311,7 @@ public function getsingleuserfollow()
      }
      else
      {
-        $data['message']=$this->restapi_model->shareuserpoll($userid,$share);
+        $data['message']=$this->restapi_model->shareuserpoll($userid,$pollid,$share);
         $this->load->view("json",$data);
      }
     }

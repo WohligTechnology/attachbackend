@@ -227,14 +227,31 @@ return $query;
         else
     return 0;
     }
-    public function shareuserpoll($userid,$share){
-    $data = array("user" => $userid, "share" => $share);
+    public function shareuserpoll($userid,$pollid,$share){
+        //insert poll
+        $query=$this->db->query("SELECT * FROM `attach_userpoll` WHERE `id`='$pollid'")->row();
+        $content=$query->content;
+        $image=$query->image;
+        $title=$query->title;
+        $video=$query->video;
+        $status=$query->status;
+        $user=$query->user;
+        $shouldhavecomment=$query->shouldhavecomment;
+        $shouldhaveoption=$query->shouldhaveoption;
+        $share=$query->share;
+        $data = array("user" => $userid, "share" => $share,"content"=>$content,"image"=>$image,"title"=>$title,"video"=>$video,"status"=>$status,"shouldhavecomment"=>$shouldhavecomment,"shouldhaveoption"=>$shouldhaveoption);
      	$query = $this->db->insert("attach_userpoll", $data);
      	$id = $this->db->insert_id();
-        if($id)
+        
+        //insert options
+        $query2=$this->db->query("SELECT * FROM `attach_userpolloption` WHERE `userpoll`='$pollid'")->result();
+        print_r($query2);
+        foreach($query2 as $row){
+        $data = array("userpoll" => $id, "text" => $row->text, "image"=>$row->image);
+    	$query = $this->db->insert("attach_userpolloption", $data);
+    	$id1 = $this->db->insert_id();     
+       }
 		return true;
-        else
-            return false;
     }
 //    public function getpollids($followids,$id){
 //        foreach($followids as $followid){
