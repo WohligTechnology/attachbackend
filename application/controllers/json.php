@@ -1326,5 +1326,10 @@ public function getsingleuserfollow()
      $data['message']=$this->restapi_model->userfollowing($id);
         $this->load->view("json",$data);
     }
+    public function sharecount(){
+       $id=$this->input->get('id');
+     $data['message']=$this->restapi_model->sharecount($id);
+        $this->load->view("json",$data);
+    }
  
 } ?>

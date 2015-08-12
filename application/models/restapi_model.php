@@ -256,6 +256,11 @@ return $query;
     $query=$this->db->query("SELECT `attach_userfollow`.`id`, `attach_userfollow`.`user`, `attach_userfollow`.`userfollowed`, `attach_userfollow`.`timestamp`, `attach_userfollow`.`creationdate`, `attach_userfollow`.`modificationdate`,`user`.`name`,`user`.`id` as `userid`,`user`.`image`,`user`.`username` FROM `attach_userfollow` LEFT OUTER JOIN `user` ON `user`.`id`=`attach_userfollow`.`user` WHERE `userfollowed`='$id'")->result();
         return $query;
     
+    } 
+    public function sharecount($id){
+    $query=$this->db->query("SELECT COUNT(*) as `sharecount` FROM `attach_userpoll` WHERE share<>0 AND user='$id'")->row();
+        return $query;
+    
     }
 //    public function getpollids($followids,$id){
 //        foreach($followids as $followid){
