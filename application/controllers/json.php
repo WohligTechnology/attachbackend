@@ -1300,5 +1300,19 @@ public function getsingleuserfollow()
         $this->load->view("json",$data);
      }
     }
+    public function shareuserpoll(){
+     $data = json_decode(file_get_contents('php://input'), true);
+        $userid=$data['userid'];
+        $share=$data['share'];
+         if(empty($data)){
+       $data['message']=0;
+        $this->load->view("json",$data);
+     }
+     else
+     {
+        $data['message']=$this->restapi_model->shareuserpoll($userid,$share);
+        $this->load->view("json",$data);
+     }
+    }
  
 } ?>

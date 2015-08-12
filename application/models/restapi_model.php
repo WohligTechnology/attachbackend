@@ -227,6 +227,15 @@ return $query;
         else
     return 0;
     }
+    public function shareuserpoll($userid,$share){
+    $data = array("user" => $userid, "share" => $share);
+     	$query = $this->db->insert("attach_userpoll", $data);
+     	$id = $this->db->insert_id();
+        if($id)
+		return true;
+        else
+            return false;
+    }
 //    public function getpollids($followids,$id){
 //        foreach($followids as $followid){
 //       $query=$this->db->query("SELECT `id` FROM `attach_userpoll` WHERE `user`='$followid->userfollowed'");
