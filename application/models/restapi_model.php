@@ -238,8 +238,7 @@ return $query;
         $user=$query->user;
         $shouldhavecomment=$query->shouldhavecomment;
         $shouldhaveoption=$query->shouldhaveoption;
-        $share=$query->share;
-        $data = array("user" => $userid, "share" => $share,"content"=>$content,"image"=>$image,"title"=>$title,"video"=>$video,"status"=>$status,"shouldhavecomment"=>$shouldhavecomment,"shouldhaveoption"=>$shouldhaveoption);
+        $data = array("user" => $userid, "share" =>$share, "content"=>$content,"image"=>$image,"title"=>$title,"video"=>$video,"status"=>$status,"shouldhavecomment"=>$shouldhavecomment,"shouldhaveoption"=>$shouldhaveoption);
      	$query = $this->db->insert("attach_userpoll", $data);
      	$id = $this->db->insert_id();
         
@@ -251,6 +250,12 @@ return $query;
     	$id1 = $this->db->insert_id();     
        }
 		return true;
+    }
+    
+    public function userfollowing($id){
+    $query=$this->db->query("SELECT `attach_userfollow`.`id`, `attach_userfollow`.`user`, `attach_userfollow`.`userfollowed`, `attach_userfollow`.`timestamp`, `attach_userfollow`.`creationdate`, `attach_userfollow`.`modificationdate`,`user`.`name`,`user`.`id` as `userid`,`user`.`image`,`user`.`username` FROM `attach_userfollow` LEFT OUTER JOIN `user` ON `user`.`id`=`attach_userfollow`.`user` WHERE `userfollowed`='$id'")->result();
+        return $query;
+    
     }
 //    public function getpollids($followids,$id){
 //        foreach($followids as $followid){

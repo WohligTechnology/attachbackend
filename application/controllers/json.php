@@ -1321,5 +1321,10 @@ public function getsingleuserfollow()
         $this->load->view("json",$data);
      }
     }
+    public function userfollowing(){
+     $id=$this->input->get('id');
+     $data['message']=$this->restapi_model->userfollowing($id);
+        $this->load->view("json",$data);
+    }
  
 } ?>
