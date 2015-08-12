@@ -245,7 +245,6 @@ return $query;
         
         //insert options
         $query2=$this->db->query("SELECT * FROM `attach_userpolloption` WHERE `userpoll`='$pollid'")->result();
-        print_r($query2);
         foreach($query2 as $row){
         $data = array("userpoll" => $id, "text" => $row->text, "image"=>$row->image);
     	$query = $this->db->insert("attach_userpolloption", $data);

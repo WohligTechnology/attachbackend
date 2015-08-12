@@ -256,6 +256,12 @@ class Json extends CI_Controller
 	$elements[16]->sort="1";
 	$elements[16]->header="favid";
 	$elements[16]->alias="favid";
+        
+    $elements[17]=new stdClass();  
+	$elements[17]->field="`attach_userpoll`.`share`";
+	$elements[17]->sort="1";
+	$elements[17]->header="share";
+	$elements[17]->alias="share";
 
 	$search=$this->input->get_post("search");
 	$pageno=$this->input->get_post("pageno");
