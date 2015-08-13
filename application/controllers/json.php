@@ -108,6 +108,12 @@ class Json extends CI_Controller
 	$elements[15]->sort="1";
 	$elements[15]->header="images";
 	$elements[15]->alias="images";
+        
+    $elements[16]=new stdClass();
+	$elements[16]->field="`attach_userpoll`.`share`";
+	$elements[16]->sort="1";
+	$elements[16]->header="share";
+	$elements[16]->alias="share";
 
 	$search=$this->input->get_post("search");
 	$pageno=$this->input->get_post("pageno");
@@ -963,6 +969,12 @@ public function getsingleuserfollow()
 	$elements[22]->sort="1";
 	$elements[22]->header="name";
 	$elements[22]->alias="name";
+        
+    $elements[23]=new stdClass();
+	$elements[23]->field="`attach_userpoll`.`share`";
+	$elements[23]->sort="1";
+	$elements[23]->header="share";
+	$elements[23]->alias="share";
 
 	$search=$this->input->get_post("search");
 	$pageno=$this->input->get_post("pageno");
